@@ -9,7 +9,15 @@ const User = sequelize.define('user', {
     surname: {type: DataTypes.STRING},
     birthday: {type: DataTypes.DATEONLY},
     role: {type: DataTypes.STRING, defaultValue: "USER"},
-    isActivated: {type: DataTypes.BOOLEAN, default: false},
+
+})
+const Token = sequelize.define('token', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    refreshToken: {type: DataTypes.STRING, required: true},
+})
+const Link = sequelize.define('link', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    isActivated: {type: DataTypes.BOOLEAN, defaultValue: false},
     activationLink: {type:  DataTypes.STRING},
 })
 
@@ -64,8 +72,15 @@ const Seat = sequelize.define('seat', {
 
 })
 
-Order.hasMany(User)
-User.belongsTo(Order)
+User.hasMany(Order)
+Order.belongsTo(User)
+
+User.hasOne(Token)
+Token.belongsTo(User)
+
+User.hasOne(Link)
+Link.belongsTo(User)
+
 
 Ticket.hasMany(Order)
 Order.belongsTo(Ticket)
@@ -100,7 +115,7 @@ module.exports = {
     Type,
     Entrance,
     Hall,
-    Seat
-
-
+    Seat,
+    Token,
+    Link
 }

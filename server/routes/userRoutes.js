@@ -1,14 +1,16 @@
 const Router = require('express')
 const  router = new Router()
+const  userController = require('../controller/userController')
 
-//const {User} = require("../models/models");
 
+router.post('/registration', userController.registration )
+router.post('/login', userController.login )
+router.post('/logout', userController.logout )
+//router.get('/auth', userController.)
+router.delete('/delite', userController.delite)
+router.put('/update', userController.update)
+router.get('/activate/:link', userController.activate )
+router.get('/refresh',  userController.refresh)
 
-router.post('/registration', )
-router.post('/login', )
-router.post('/logout', )
-router.get('/auth', (req, res) => {res.json({messege:'dgf'})})
-router.delete('/delite')
-router.put('/update')
 
 module.exports = router
