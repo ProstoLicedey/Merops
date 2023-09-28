@@ -15,7 +15,7 @@ class UserService{
             throw ApiError.BadRequest( 'Пользователь с таким email уже зарегестрирован')
         }
         const hashPassword = await  bcrypt.hash(password,3 )
-        const user = await  User.create({email, password: hashPassword, name, surname, birthday: Date.parse(birthday)})
+        const user = await  User.create({email, password: hashPassword, name:name, surname: surname, birthday: birthday})
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await  LinkService.saveLink(userDto.id, email  )

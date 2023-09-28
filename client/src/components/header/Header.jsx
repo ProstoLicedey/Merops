@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Logo from '../../assets/logo.png'
 import { Image, Menu, Space } from 'antd';
 import { Header } from "antd/es/layout/layout";
@@ -8,17 +8,31 @@ import { HOME_ROUTE, USER_ROUTE } from "../../utils/consts";
 import { NavLink } from "react-router-dom";
 import SerchInput from "../serch";
 import {useMediaQuery} from "react-responsive";
+import authModals from "../auth/authModals";
+import CollectionCreateForm from "../auth/authModals";
+import {Context} from "../../index";
 
 const { Title } = Typography;
 
+
 const HeaderPage = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
+    const [open, setOpen] = useState(false);
+    const {user} = useContext(Context)
+    const [userName, setUserName] = React.useState('')
+
+    React.useEffect(() => {
+
+            setUserName(user.user.name);
+        console.log(user.user)
+    }, [user.user])
+
     return (
-        <Header style={{ display: 'flex', alignItems: 'center', height: '6vw', justifyContent:'space-between' }}>
+        <Header style={{ display: 'flex', alignItems: 'center', height: '5vw', justifyContent:'space-between' }}>
             <NavLink to={HOME_ROUTE} style={{ display: 'flex', alignItems: 'center'  }}>
                 {!isMobile && (<Image src={Logo}
-                       width={'6vw'}
-                       height={'6vw'}
+                       width={'5vw'}
+                       height={'5vw'}
                        style={{
                            padding:'0.8vw',
                            userSelect: 'none',
@@ -29,19 +43,19 @@ const HeaderPage = () => {
                 />)}
                 <Title level={1}
                        style={{
-                           color: '#FFFFFFD9',
+                           color: '#FFFFFFFF',
                            marginTop:'0.3vw',
                            marginBottom:'0.3vw',
                            userSelect: 'none',
                            whiteSpace: 'nowrap',
-                           fontSize: '3.5vw',
+                           fontSize: '3vw',
                        }}
                 >
                     Merop
                 </Title>
             </NavLink>
 
-            {!isMobile && (<SerchInput style={{width: '35vw',}}/>)}
+            {!isMobile && (<SerchInput style={{width: '35vw', }}/>)}
 
 
             <Title level={1}
@@ -50,10 +64,23 @@ const HeaderPage = () => {
                        marginTop: 10,
                        userSelect: 'none',
                        whiteSpace: 'nowrap',
-                       fontSize: '2vw',
+                       fontSize: '1.8vw',
                    }}
-            >Войти</Title>
+                   onClick={() => setOpen(true)}
+            > {
+                user.isAuth ?
+                userName
+                :
+                "Войти"
+            }
+            </Title>
+                       <CollectionCreateForm
+                       open={open}
+                   onCancel={() => {
+                       setOpen(false);
+                   }}
 
+            />
         </Header>
     );
 };

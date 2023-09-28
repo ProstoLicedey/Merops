@@ -9,11 +9,13 @@ const {Header, Content, Footer} = Layout;
 
 
 function App() {
+
     const {
         token: {colorBgContainer},
     } = theme.useToken();
     return (
         <BrowserRouter>
+
             <Layout className="layout" style={{minHeight: '100vh'}}>
                 <HeaderPage/>
                 <Content className="site-layout-content"
