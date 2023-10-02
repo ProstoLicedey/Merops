@@ -1,4 +1,4 @@
-import {login, registration} from "../http/userAPI";
+import {login, registration} from "../../http/userAPI";
 
 const onCreate = async (values, user, isRegistration) => {
     try {

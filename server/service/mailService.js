@@ -30,6 +30,27 @@ class MailService{
             `
         })
     }
+    async sendUpdatePassword(to, code){
+        try {
+            await this.transporter.sendMail({
+                from: process.env.SMTP_USER,
+                to,
+                subject: 'Востановление пароля',
+                text: '',
+                html:
+                    `
+            <div>
+                <h3>Код востановления пароля для аккаунта</h3>
+                <h1>${code}</h1>
+                <h4>Не передавайте третим лицам</h4>
+            </div>
+            `
+            })
+        }
+        catch (e){
+            console.log(e)
+        }
+    }
 
 
 }

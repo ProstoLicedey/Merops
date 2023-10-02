@@ -11,8 +11,12 @@ import {useMediaQuery} from "react-responsive";
 import authModals from "../auth/authModals";
 import CollectionCreateForm from "../auth/authModals";
 import {Context} from "../../index";
+import {UserOutlined} from "@ant-design/icons";
+import {observer} from "mobx-react-lite";
 
 const { Title } = Typography;
+
+
 
 
 const HeaderPage = () => {
@@ -21,14 +25,9 @@ const HeaderPage = () => {
     const {user} = useContext(Context)
     const [userName, setUserName] = React.useState('')
 
-    React.useEffect(() => {
-
-            setUserName(user.user.name);
-        console.log(user.user)
-    }, [user.user])
 
     return (
-        <Header style={{ display: 'flex', alignItems: 'center', height: '5vw', justifyContent:'space-between' }}>
+        <Header style={{ display: 'flex', alignItems: 'center', height: '5vw', justifyContent:'space-between',  backgroundColor:'#391085'}}>
             <NavLink to={HOME_ROUTE} style={{ display: 'flex', alignItems: 'center'  }}>
                 {!isMobile && (<Image src={Logo}
                        width={'5vw'}
@@ -69,7 +68,7 @@ const HeaderPage = () => {
                    onClick={() => setOpen(true)}
             > {
                 user.isAuth ?
-                userName
+                    <UserOutlined/>
                 :
                 "Войти"
             }
@@ -85,4 +84,4 @@ const HeaderPage = () => {
     );
 };
 
-export default HeaderPage;
+export default  observer(HeaderPage);

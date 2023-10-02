@@ -15,6 +15,10 @@ const Token = sequelize.define('token', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     refreshToken: {type: DataTypes.STRING, required: true},
 })
+const UpdatePassword = sequelize.define('updatePassword', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    code: {type: DataTypes.INTEGER,  required: true},
+})
 const Link = sequelize.define('link', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     isActivated: {type: DataTypes.BOOLEAN, defaultValue: false},
@@ -35,9 +39,10 @@ const Event = sequelize.define('event', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING},
     description: {type: DataTypes.STRING},
+    price: {type: DataTypes.INTEGER},
     dateTime: {type: DataTypes.DATE},
     img: {type: DataTypes.STRING, allowNull: false},
-    Status: {type: DataTypes.STRING}
+    Status: {type: DataTypes.STRING, defaultValue: "ACTIVE"}
 })
 
 const AgeRating = sequelize.define('ageRating', {
@@ -78,6 +83,9 @@ Order.belongsTo(User)
 User.hasOne(Token)
 Token.belongsTo(User)
 
+User.hasOne(UpdatePassword)
+UpdatePassword.belongsTo(User)
+
 User.hasOne(Link)
 Link.belongsTo(User)
 
@@ -117,5 +125,6 @@ module.exports = {
     Hall,
     Seat,
     Token,
-    Link
+    Link,
+    UpdatePassword
 }

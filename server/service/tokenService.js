@@ -4,7 +4,7 @@ const ApiError = require("../exeptions/apiError");
 
 class TokenService{
     generateTokens(payload){
-        const  accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {expiresIn: '30s'})
+        const  accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {expiresIn: '50m'})
         const  refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {expiresIn: '30d'})
         return{
             accessToken,
@@ -46,7 +46,8 @@ class TokenService{
     }
 
     async findToken(refreshToken){
-        const  tokenData = await  Token.findOne({where: {refreshToken}})
+        console.log(refreshToken)
+        const  tokenData = await  Token.findOne({where: {refreshToken:refreshToken}})
 
         return tokenData
     }

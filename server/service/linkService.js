@@ -15,7 +15,7 @@ class LinkService{
     }
     async saveLink(userId, email){
         const  activationLink = uuid.v4()
-        await  mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`)
+        //await  mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`)
         const  link = await Link.create({activationLink: activationLink, userId: userId})
         return link
     }

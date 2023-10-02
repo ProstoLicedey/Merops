@@ -11,6 +11,9 @@ router.delete('/delite', userController.delite)
 router.put('/update', userController.update)
 router.get('/activate/:link', userController.activate )
 router.get('/refresh',  userController.refresh)
+router.post('/receiveCode',  userController.receiveCode)
+router.post('/inputCode',  userController.inputCode)
+router.post('/updatePass',  userController.updatePass)
 
 
 module.exports = router

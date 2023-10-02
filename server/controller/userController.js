@@ -2,6 +2,7 @@
 const userService = require('../service/userService')
 const linkService = require('../service/linkService')
 const  {validationResult} = require('express-validator')
+const ApiError = require("../exeptions/apiError");
 
 class UserController{
     async registration(req, res, next){
@@ -51,7 +52,7 @@ class UserController{
             return res.redirect(process.env.CLIENT_URL)
         }
         catch (e){
-            next(e)
+            next( ApiError.BadRequest(e))
         }
     }
     async refresh(req, res, next) {
@@ -63,15 +64,15 @@ class UserController{
             return res.json(userData);
         }
         catch (e){
-            next(e)
+            next( ApiError.BadRequest(e))
         }
     }
     async delite(req, res, next) {
         try {
-            next(e)
+
         }
         catch (e){
-            next(e)
+            next( ApiError.BadRequest(e))
         }
     }
 
@@ -80,7 +81,38 @@ class UserController{
 
         }
         catch (e){
-            next(e)
+            next( ApiError.BadRequest(e))
+        }
+    }
+    async receiveCode(req, res, next) {
+        try {
+            const {email} = req.body;
+            const userData= await userService.receiveCode(email);
+            return res.json(userData)
+        }
+        catch (e){
+            next( ApiError.BadRequest(e))
+        }
+    }
+    async inputCode(req, res, next) {
+        try {
+            const {email, code} = req.body;
+            console.log(code)
+            const userData= await userService.updatePassGet(email, code);
+            return res.json(userData)
+        }
+        catch (e){
+            next( ApiError.BadRequest(e))
+        }
+    }
+    async updatePass(req, res, next) {
+        try {
+            const {email, password} = req.body;
+            const userData= await userService.updatePass(email, password);
+            return res.json(userData)
+        }
+        catch (e){
+            next( ApiError.BadRequest(e))
         }
     }
 

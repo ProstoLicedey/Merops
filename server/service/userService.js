@@ -1,7 +1,7 @@
 
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const {User, Link} = require('../models/models');
+const {User, Link, UpdatePassword} = require('../models/models');
 const  mailService = require('./mailService')
 const  tokenService = require('./tokenService')
 const  UserDto = require('../dto/userDto')
@@ -50,7 +50,7 @@ class UserService{
         }
         const  userData = tokenService.validateRefreshToken(refreshToken)
         const  tokenFromDb = await  tokenService.findToken(refreshToken)
-        if(!userData || !tokenFromDb){
+        if(!userData ){
             throw ApiError.BadRequest('12')
         }
         if( !tokenFromDb){
@@ -67,6 +67,45 @@ class UserService{
 
         return{...tokens, user: userDto}
 
+    }
+    async receiveCode(email){
+        const  user = await  User.findOne({ where:{email}})
+        if(!user){
+            throw  ApiError.BadRequest(' Пользователь не найден')
+        }
+        let  updatePassword = await  UpdatePassword.findOne({ where:{userId: user.id}})
+        const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+        if(updatePassword){
+            updatePassword.code = randomNumber;
+            return updatePassword.save();
+        }
+        updatePassword = await UpdatePassword.create({code:randomNumber, userId: user.id })
+        await  mailService.sendUpdatePassword(email, randomNumber )
+        return true;
+    }
+    async updatePassGet(email, code){
+        console.log(email)
+        const  user = await  User.findOne({ where:{email:email}})
+        console.log(user.email)
+        if(!user){
+            throw  ApiError.BadRequest(' Пользователь не найден')
+        }
+        const  updatePassword = await  UpdatePassword.findOne({ where:{code, userId:user.id}})
+        if(!updatePassword){
+            throw  ApiError.BadRequest(' Код не верен')
+        }
+        return true;
+    }
+    async updatePass(email, password){
+        const  user = await  User.findOne({ where:{email}})
+        if(!user){
+            throw  ApiError.BadRequest(' Пользователь не найден')
+        }
+        const hashPassword = await  bcrypt.hash(password,3 )
+
+        user.password = hashPassword;
+        user.save();
+        return true;
     }
 
 
