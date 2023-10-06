@@ -3,8 +3,10 @@ export default class EventStore {
     constructor() {
         this._types = []
         this._events = []
+        this._event = {}
 
         this._selectedType = {}
+        this._serchTitle = {}
         this._selectedDate = {}
         this._selectedPrice = {}
 
@@ -19,9 +21,12 @@ export default class EventStore {
     setEvents(events) {
         this._events = events
     }
+    setEvent(event) {
+        this._event = event
+    }
 
-    setSelectedType(type) {
-        this.setPage(1)
+        setSelectedType(type) {
+
         if (type === this._selectedType){
             this._selectedType = {}
         }
@@ -31,6 +36,9 @@ export default class EventStore {
     }
     setSelectedDate(date) {
         this._selectedDate = date
+    }
+    setSerchTitle(serchTitle) {
+        this._serchTitle = serchTitle
     }
     setSelectedPrice(price) {
         this._selectedPrice = price
@@ -48,6 +56,9 @@ export default class EventStore {
     get events() {
         return this._events
     }
+    get event() {
+        return this._event
+    }
     get selectedType() {
         return this._selectedType
     }
@@ -62,5 +73,8 @@ export default class EventStore {
     }
     get selectedPrice() {
         return this._selectedPrice
+    }
+    get serchTitle() {
+        return this._serchTitle
     }
 }

@@ -6,6 +6,7 @@ import moment from 'moment';
 import {EVENT_ROUTE} from "../../utils/consts";
 import {useNavigate} from "react-router-dom";
 import 'moment/locale/ru';
+import * as events from "events";
 
 const {Text, Title} = Typography
 
@@ -14,12 +15,12 @@ const EventItem = ({thisEvent}) => {
     return (
         <Card
             hoverable
-            style={{ width: 240 }}
+            style={{width: 240}}
             onClick={() => navigate(EVENT_ROUTE + '/' + thisEvent.id)}
             cover={
-                <div style={{ position: 'relative', paddingBottom: '150%' }}>
+                <div style={{position: 'relative', paddingBottom: '150%'}}>
                     <img
-                        alt="example"
+                        alt="photo"
                         src={process.env.REACT_APP_API_URL + thisEvent.img}
                         style={{
                             position: 'absolute',
@@ -40,7 +41,7 @@ const EventItem = ({thisEvent}) => {
                             borderRadius: '30%',
                             padding: '5px',
                             fontSize: '14px',
-                            opacity:'0.8'
+                            opacity: '0.8'
                         }}
                     >
                         от {thisEvent.price}₽
@@ -56,18 +57,22 @@ const EventItem = ({thisEvent}) => {
                 color: 'white',
                 borderRadius: '50%',
                 padding: '5px',
-                opacity:'0.8'
-            }}>12+</div>
-            <Title level={4} style={{ height: '2em' }} >
+                opacity: '0.8'
+            }}>{thisEvent.ageRating? thisEvent.ageRating.age : null }+
+            </div>
+            <Title level={4} style={{height: '2em'}}>
                 {thisEvent.title}
             </Title>
-            <Title level={5} type="secondary" style={{ height: '1em' }}>
+            <Title level={5} type="secondary" style={{height: '1em'}}>
                 {thisEvent.dateTime
                     ? moment(thisEvent.dateTime).locale('ru').format('DD MMMM HH:mm ddd')
                     : ''}
             </Title>
-            <Title level={5} type="secondary" style={{ height: '1em' }}>
-               КНИТУ-КАИ
+            <Title level={5} type="secondary" style={{height: '1em'}}>
+                {
+                    thisEvent.hall ? thisEvent.hall.name : thisEvent.entrance ? thisEvent.entrance.title : null
+                }
+
             </Title>
         </Card>
     )

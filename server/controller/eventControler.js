@@ -1,9 +1,12 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, DeviceInfo} = require('../models/models')
+const {Event, DeviceInfo, Entrance, Hall, AgeRating, Type} = require('../models/models')
 const {Op} = require("sequelize"); //модель
-const  ApiError = require('../exeptions/apiError')
+const {sequelize} = require('sequelize')
+const ApiError = require('../exeptions/apiError')
+
 class EventController {
+
     async create(req, res, next) {
         try {
 
@@ -17,25 +20,26 @@ class EventController {
 
             return res.json(event)
         } catch (e) {
-            next( ApiError.BadRequest(e))
+            next(ApiError.BadRequest(e))
         }
     }
 
+
     async getAll(req, res, next) {
         try {
-            let { typeId, page, priceMin, priceMax, dateMin, dateMax } = req.query;
+            let {typeId, page, priceMin, priceMax, dateMin, dateMax, serchTitle} = req.query;
             const limit = 16;
             page = page || 1;
             let offset = page * limit - limit;
 
             const where = {};
-            console.log(priceMax)
+
             if (priceMin && priceMax) {
-                where.price = { [Op.between]: [priceMin, priceMax] };
+                where.price = {[Op.between]: [priceMin, priceMax]};
             } else if (priceMin) {
-                where.price = { [Op.gte]: priceMin };
+                where.price = {[Op.gte]: priceMin};
             } else if (priceMax) {
-                where.price = { [Op.lte]: priceMax };
+                where.price = {[Op.lte]: priceMax};
             }
 
             if (typeId) {
@@ -47,12 +51,25 @@ class EventController {
                     [Op.between]: [new Date(dateMin), new Date(dateMax)]
                 };
             } else if (dateMin) {
-                where.dateTime = { [Op.gte]: new Date(dateMin) };
+                where.dateTime = {[Op.gte]: new Date(dateMin)};
             } else if (dateMax) {
-                where.dateTime = { [Op.lte]: new Date(dateMax) };
+                where.dateTime = {[Op.lte]: new Date(dateMax)};
+            }
+            console.log(serchTitle)
+            console.log(dateMin)
+            console.log(typeId)
+            if (serchTitle) {
+                where.title = {
+                    [Op.iLike]: `%${serchTitle}%`
+                };
             }
 
-            const event = await Event.findAndCountAll({ where, limit, offset });
+            const event = await Event.findAndCountAll({
+                where,
+                limit,
+                offset,
+                include: [{model: Hall, as: 'hall'}, {model: Entrance, as: 'entrance'},{model: AgeRating, as: 'ageRating'}]
+            });
 
             return res.json(event);
         } catch (e) {
@@ -62,7 +79,16 @@ class EventController {
 
 
     async getOne(req, res) {
+        const {id} = req.params
+        const event = await Event.findOne(
+            {
+                where: {id},
 
+                include: [{model: Hall, as: 'hall'}, {model: Entrance, as: 'entrance'}, {model: AgeRating, as: 'ageRating'},{model: Type, as: 'type'} ]
+
+            })
+
+        return res.json(event)
 
     }
 }

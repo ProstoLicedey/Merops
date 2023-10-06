@@ -38,7 +38,7 @@ const Ticket = sequelize.define('ticket', {
 const Event = sequelize.define('event', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING},
-    description: {type: DataTypes.STRING},
+    description: {type: DataTypes.TEXT},
     price: {type: DataTypes.INTEGER},
     dateTime: {type: DataTypes.DATE},
     img: {type: DataTypes.STRING, allowNull: false},
@@ -58,6 +58,7 @@ const Type = sequelize.define('type', {
 const Entrance = sequelize.define('entrance', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     adress: {type: DataTypes.STRING},
+    title: {type: DataTypes.STRING},
     totalSeats: {type: DataTypes.INTEGER},
     seatsLeft: {type: DataTypes.INTEGER},
 

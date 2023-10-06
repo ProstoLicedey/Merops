@@ -15,7 +15,7 @@ export  const  createEvent = async (device) =>{
 }
 
 
-export const fetchEvent = async (typeId, page, price, date) => {
+export const fetchEvent = async (typeId, page, price, date, serchTitle) => {
     let dateMin = null;
     let dateMax = null;
     let priceMin = null;
@@ -38,12 +38,13 @@ export const fetchEvent = async (typeId, page, price, date) => {
             priceMax,
             dateMin,
             dateMax,
+            serchTitle
         }
     });
 
     return data;
 }
 export  const  fetchOneEvent = async (id) =>{
-    // const  {data} = await $host.get('api/event/' + id )
-    // return data
+    const  {data} = await $host.get('api/event/' + id )
+    return data
 }

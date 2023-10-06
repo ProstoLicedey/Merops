@@ -20,7 +20,7 @@ const { Title } = Typography;
 
 
 const HeaderPage = () => {
-    const isMobile = useMediaQuery({ maxWidth: 768 });
+    const isMobile = useMediaQuery({ maxWidth: 950   });
     const [open, setOpen] = useState(false);
     const {user} = useContext(Context)
     const [userName, setUserName] = React.useState('')
@@ -35,7 +35,6 @@ const HeaderPage = () => {
                        style={{
                            padding:'0.8vw',
                            userSelect: 'none',
-
                        }}
                        preview={false}
                        alt="Логотип сайта"
@@ -57,7 +56,7 @@ const HeaderPage = () => {
             {!isMobile && (<SerchInput style={{width: '35vw', }}/>)}
 
 
-            <Title level={1}
+            <Title level={3}
                    style={{
                        color: '#FFFFFFD9',
                        marginTop: 10,

@@ -1,4 +1,4 @@
-import {login, registration} from "../../http/userAPI";
+import { login, registration } from "../../http/userAPI";
 
 const onCreate = async (values, user, isRegistration) => {
     try {
@@ -14,16 +14,14 @@ const onCreate = async (values, user, isRegistration) => {
                 values.birthday
             );
         }
-        if(data) {
-
+        if (data) {
             user.setUser(data);
-            console.log(user.user)
-            console.log( user.user.name)
             user.setIsAuth(true);
             return true;
         }
+
     } catch (e) {
-      return e
+        return e;
     }
 };
 

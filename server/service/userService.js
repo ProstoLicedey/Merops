@@ -15,7 +15,7 @@ class UserService{
             throw ApiError.BadRequest( 'Пользователь с таким email уже зарегестрирован')
         }
         const hashPassword = await  bcrypt.hash(password,3 )
-        const user = await  User.create({email, password: hashPassword, name:name, surname: surname, birthday: birthday})
+        const user = await  User.create({email: email.toLowerCase(), password: hashPassword, name:name, surname: surname, birthday: birthday})
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await  LinkService.saveLink(userDto.id, email  )
@@ -25,7 +25,7 @@ class UserService{
     }
 
     async login(email, password){
-        const  user = await  User.findOne({ where:{email}})
+        const  user = await  User.findOne({ where:{email: email.toLowerCase()}})
         if(!user){
             throw  ApiError.BadRequest(' Пользователь с таким email не найден')
         }

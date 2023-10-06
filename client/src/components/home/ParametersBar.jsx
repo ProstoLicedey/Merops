@@ -4,6 +4,7 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import ruRU from 'antd/es/locale/ru_RU';
 import EventItem from "./EventItem";
+import Link from "antd/es/typography/Link";
 
 const {Text, Title} = Typography
 
@@ -24,11 +25,11 @@ const ParametersBar = observer(() => {
 
     let max = 800;
 
-        event.events.forEach(event => {
-            if (event.price > max) {
-                max = event.price;
-            }
-        });
+    event.events.forEach(event => {
+        if (event.price > max) {
+            max = event.price;
+        }
+    });
 
 
     const onSliderChange = (values) => {
@@ -47,11 +48,23 @@ const ParametersBar = observer(() => {
         setSliderValues([0, max]);
     }, [max]);
 
-    const [sliderValues, setSliderValues] =useState([0, max]);
+    const [sliderValues, setSliderValues] = useState([0, max]);
     return (
-        <Space size={"large"} direction="vertical" style={{justifyContent: "center", margin: "5%",}}>
+        <Space size={"large"} direction="vertical" style={{justifyContent: "center", margin: "5%", minWidth:240}}>
             <div>
-                <Title level={4}>Категории</Title>
+                <Space   style={{display: "flex", textAlign: 'center', alignItems: 'center', justifyContent:'space-between'}}>
+                    <Title level={4}>Категории</Title>
+                    <Link onClick={() => {
+                        event.setPage(1)
+                        event.setSelectedType({})
+                        event.setSelectedDate({})
+                        event.setSelectedPrice({})
+                        event.setSerchTitle(null)
+
+                    }}
+
+                    >Сброс</Link>
+                </Space>
                 <List
                     bordered
                     dataSource={event.types}
@@ -75,16 +88,16 @@ const ParametersBar = observer(() => {
             <div>
                 <Title level={4}>Цена</Title>
 
-                        <Slider
-                            range
-                            min={1}
-                            max={max}
-                            onChange={onSliderChange}
-                            value={sliderValues}
-                        />
+                <Slider
+                    range
+                    min={1}
+                    max={max}
+                    onChange={onSliderChange}
+                    value={sliderValues}
+                />
 
                 <Row>
-                    <Space >
+                    <Space>
                         <InputNumber
                             prefix="от"
                             min={0}

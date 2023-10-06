@@ -30,7 +30,7 @@ const App = observer (() =>  {
                 <HeaderPage/>
                 <Content className="site-layout-content"
                          style={{ margin: '3vh', background: colorBgContainer}}>
-                    <AppRouter/>
+                    <AppRouter />
                 </Content>
                 <Footer>
                     <FooterPage/>

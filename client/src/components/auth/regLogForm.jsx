@@ -128,14 +128,16 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
 
 
             <Form.Item style={{textAlign: 'center'}}>
-                <Button type="primary" htmlType="submit" style={{width: 200, height: 40, fontSize: 18,  backgroundColor:'#391085'}}
+                <Button type="primary" htmlType="submit" style={{width: 200, height: 40, fontSize: 18,  backgroundColor:'#722ed1'}}
                         onClick={() => {
+                            setMessage('')
                             form
                                 .validateFields()
                                 .then((values) => {
                                     onCreate(values, user, isRegistration)
                                         .then(result => {
                                             if (result === true) {
+                                                console.log(result)
                                                 setIsRegistration(false);
                                                 form.resetFields();
                                                 onCancel();

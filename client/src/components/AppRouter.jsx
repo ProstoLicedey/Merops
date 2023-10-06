@@ -15,7 +15,7 @@ const AppRouter = () => {
                 <Route key={path} path={path} element={role === 'CREATOR' ? <Component/> : <Navigate to="/"/>}/>
             ))}
             {userRoutes.map(({path, Component}) => (
-                <Route key={path} path={path} element={role === 'USER' ? <Component/> : <Navigate to="/"/>}/>
+                <Route key={path} path={path} element={role === 'USER' ? <Component /> : <Navigate to="/"/>}/>
             ))}
             {publicRoutes.map(({path, Component}) => (
                 <Route key={path} path={path} element={<Component/>}/>
