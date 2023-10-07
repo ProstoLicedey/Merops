@@ -32,17 +32,20 @@ const Order = sequelize.define('order', {
 const Ticket = sequelize.define('ticket', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     number: {type: DataTypes.INTEGER},
-    Status: {type: DataTypes.BOOLEAN, default: false},
+    row: {type: DataTypes.INTEGER},
+    seat: {type: DataTypes.INTEGER},
+    price: {type: DataTypes.INTEGER},
+    status: {type: DataTypes.BOOLEAN, default: false},
 })
 
 const Event = sequelize.define('event', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING},
     description: {type: DataTypes.TEXT},
-    price: {type: DataTypes.INTEGER},
     dateTime: {type: DataTypes.DATE},
     img: {type: DataTypes.STRING, allowNull: false},
-    Status: {type: DataTypes.STRING, defaultValue: "ACTIVE"}
+    Status: {type: DataTypes.STRING, defaultValue: "ACTIVE"},
+    seatsLeft: {type: DataTypes.STRING}
 })
 
 const AgeRating = sequelize.define('ageRating', {
@@ -58,10 +61,19 @@ const Type = sequelize.define('type', {
 const Entrance = sequelize.define('entrance', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     adress: {type: DataTypes.STRING},
-    title: {type: DataTypes.STRING},
+    name: {type: DataTypes.STRING},
     totalSeats: {type: DataTypes.INTEGER},
-    seatsLeft: {type: DataTypes.INTEGER},
 
+})
+const EntranceОption = sequelize.define('entranceОption', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING},
+    totalSeats: {type: DataTypes.INTEGER},
+})
+const EntranceОptionPrice = sequelize.define('entranceОptionPrice', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.STRING},
+    seatsLeft: {type: DataTypes.INTEGER},
 })
 const Hall = sequelize.define('hall', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -71,12 +83,28 @@ const Hall = sequelize.define('hall', {
     numberSeatsInRow: {type: DataTypes.INTEGER},
 
 })
-const Seat = sequelize.define('seat', {
+const HallPassage = sequelize.define('hallPassage', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    row: {type: DataTypes.INTEGER},
-    seat: {type: DataTypes.INTEGER},
+    adress: {type: DataTypes.STRING},
+    afterRow: {type: DataTypes.INTEGER},
+    afterSeat: {type: DataTypes.INTEGER},
 
 })
+const HallОption = sequelize.define('hallОption', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING},
+    rowStart: {type: DataTypes.INTEGER},
+    rowFinish: {type: DataTypes.INTEGER},
+    seatStart: {type: DataTypes.INTEGER},
+    seatFinish: {type: DataTypes.INTEGER},
+
+})
+const HallОptionPrice = sequelize.define('hallОptionPrice', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER},
+
+})
+
 
 User.hasMany(Order)
 Order.belongsTo(User)
@@ -90,10 +118,22 @@ UpdatePassword.belongsTo(User)
 User.hasOne(Link)
 Link.belongsTo(User)
 
+/////////////////////////////
 
 Ticket.hasMany(Order)
 Order.belongsTo(Ticket)
 
+EntranceОptionPrice.hasMany(Ticket)
+Ticket.belongsTo(EntranceОptionPrice)
+
+HallОptionPrice.hasMany(Ticket)
+Ticket.belongsTo(HallОptionPrice)
+
+User.hasMany(Event)
+User.belongsTo(AgeRating)
+
+
+//////////
 Event.hasMany(Ticket)
 Ticket.belongsTo(Event)
 
@@ -109,23 +149,44 @@ Event.belongsTo(Entrance)
 Hall.hasMany(Event)
 Event.belongsTo(Hall)
 
-Hall.hasMany(Seat)
-Seat.belongsTo(Hall)
+Event.hasMany(EntranceОptionPrice)
+EntranceОptionPrice.belongsTo(Event)
 
-Seat.hasMany(Ticket)
-Ticket.hasMany(Seat)
+Event.hasMany(HallОptionPrice)
+HallОptionPrice.belongsTo(Hall)
+
+/////////
+
+Hall.hasMany(HallОption)
+HallОption.belongsTo(Hall)
+
+HallОption.hasMany(HallОptionPrice)
+HallОptionPrice.hasMany(HallОption)
+
+///////////
+
+Entrance.hasMany(EntranceОption)
+EntranceОption.belongsTo(Entrance)
+
+EntranceОption.hasMany(EntranceОptionPrice)
+EntranceОptionPrice.belongsTo(EntranceОption)
 
 module.exports = {
     User,
+    Token,
+    UpdatePassword,
+    Link,
     Order,
     Ticket,
     Event,
     AgeRating,
     Type,
     Entrance,
+    EntranceОption,
+    EntranceОptionPrice,
     Hall,
-    Seat,
-    Token,
-    Link,
-    UpdatePassword
+    HallPassage,
+    HallОption,
+    HallОptionPrice,
+
 }

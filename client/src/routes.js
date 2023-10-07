@@ -1,7 +1,7 @@
 import {
     ADMIN_ROUTE,
     CREATOR_ROUTE,
-    EVENT_ROUTE,
+    EVENT_ROUTE, HALL_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE,
     REGISTRATION_ROUTE,
@@ -15,6 +15,7 @@ import registration from "./pages/registration";
 import Creator from "./pages/creator/creator";
 import User from "./pages/user/user";
 import Admin from "./pages/admin/admin";
+import Hall from "./pages/event/hall";
 
 export const  userRoutes = [
 
@@ -56,5 +57,9 @@ export  const publicRoutes = [
     {
         path: EVENT_ROUTE + '/:id',
         Component: Event
+    },
+    {
+        path: HALL_ROUTE + '/:id',
+        Component: Hall
     },
 ]

@@ -7,3 +7,4 @@ export const REGISTRATION_ROUTE = '/registration'
 export const HOME_ROUTE = '/'
 
 export const EVENT_ROUTE = '/event'
+export const HALL_ROUTE = '/event'

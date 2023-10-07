@@ -70,7 +70,7 @@ const EventItem = ({thisEvent}) => {
             </Title>
             <Title level={5} type="secondary" style={{height: '1em'}}>
                 {
-                    thisEvent.hall ? thisEvent.hall.name : thisEvent.entrance ? thisEvent.entrance.title : null
+                    thisEvent.hall ? thisEvent.hall.name : thisEvent.entrance ? thisEvent.entrance.name : null
                 }
 
             </Title>
