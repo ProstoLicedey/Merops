@@ -1,9 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {fetchOneEvent} from '../../http/eventAPI';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Context} from '../../index';
 import {Button, Col, Collapse, Image, Row, Space, Tag, Typography} from 'antd';
-import Logo from '../../assets/logo.png';
 import {observer} from 'mobx-react-lite';
 import Title from 'antd/es/typography/Title';
 import ShareButton from '../../components/event/ShareButton';
@@ -11,9 +10,15 @@ import AddressLink from '../../components/event/AddressLink';
 import Paragraph from 'antd/es/typography/Paragraph';
 import DrawerBuy from "./DrawerBuy";
 import CollectionCreateForm from "../../components/auth/authModals";
+import {EVENT_ROUTE, HALL_ROUTE} from "../../utils/consts";
+import moment from "moment";
+import {CalendarOutlined} from "@ant-design/icons";
+import IconCalendar from "../../assets/icon/CalendarIcon";
+import MoneyIcon from "../../assets/icon/MoneyIcon";
 
 const {Text, Link} = Typography;
 const {Panel} = Collapse;
+
 
 const Event = () => {
     const {id} = useParams();
@@ -22,6 +27,8 @@ const Event = () => {
     const [rows, setRows] = useState(3);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openAuth, setOpenAuth] = useState(false);
+    const navigate = useNavigate()
+
     useEffect(() => {
         fetchOneEvent(id).then(data => event.setEvent(data));
     }, []);
@@ -53,7 +60,7 @@ const Event = () => {
                 </Col>
                 <Col md={18} style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
                     <Space direction="vertical" size={"middle"}>
-                        <Row>
+                        <Row s>
                             <Tag style={{fontWeight: 'bold'}} bordered={false}>
                                 {event.event.ageRating ? event.event.ageRating.age : null}
                                 +
@@ -63,12 +70,19 @@ const Event = () => {
                             </Tag>
                         </Row>
                         <Title>{event.event.title}</Title>
-
                         <AddressLink
+                            style={{marginTop: -10}}
                             name={event.event.hall ? event.event.hall.name : event.event.entrance ? event.event.entrance.name : null}
                             adress={event.event.hall ? event.event.hall.adress : event.event.entrance ? event.event.entrance.adress : null}
                         />
-                        {/*<Title level={3}>Цена:{event.event.title}</Title>*/}
+                        <Row tyle={{display: 'flex', alignItems: 'center',}}>
+                            <IconCalendar style={{width:30, height:30, marginRight: 5}}/>
+                            <Title level={4}>{moment(event.event.dateTime).locale('ru').format('DD MMMM HH:mm ddd ')}</Title>
+                        </Row>
+                        <Row>
+                           <MoneyIcon style={{width:30, height:30, marginRight: 5}} />
+                        <Title level={4}>{event.event.minPrice}-{event.event.maxPrice}₽</Title>
+                        </Row>
                         <div>
                             <Paragraph
                                 ellipsis={{
@@ -89,13 +103,13 @@ const Event = () => {
                         <Space style={{float: 'right'}}>
                             <Button
                                 type="primary"
-                                style={{backgroundColor: '#722ed1', width: '15em', height: '4em'}}
+                                style={{backgroundColor: '#722ed1',  height: '4em', fontSize:'1.4em'}}
                                 onClick={() => {
                                     if (user.isAuth) {
                                         if (event.event.entranceId) {
                                             setOpenDrawer(true);
-                                        } else if (event.e.hallId) {
-
+                                        } else if (event.event.hallId) {
+                                            navigate(HALL_ROUTE + '/' + event.event.id)
                                         }
                                     } else {
                                         console.log(123)

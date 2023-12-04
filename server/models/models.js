@@ -34,8 +34,7 @@ const Ticket = sequelize.define('ticket', {
     number: {type: DataTypes.INTEGER},
     row: {type: DataTypes.INTEGER},
     seat: {type: DataTypes.INTEGER},
-    price: {type: DataTypes.INTEGER},
-    status: {type: DataTypes.BOOLEAN, default: false},
+    status: {type: DataTypes.BOOLEAN, defaultValue:true},
 })
 
 const Event = sequelize.define('event', {
@@ -45,7 +44,6 @@ const Event = sequelize.define('event', {
     dateTime: {type: DataTypes.DATE},
     img: {type: DataTypes.STRING, allowNull: false},
     Status: {type: DataTypes.STRING, defaultValue: "ACTIVE"},
-    seatsLeft: {type: DataTypes.STRING}
 })
 
 const AgeRating = sequelize.define('ageRating', {
@@ -72,7 +70,7 @@ const EntranceОption = sequelize.define('entranceОption', {
 })
 const EntranceОptionPrice = sequelize.define('entranceОptionPrice', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    price: {type: DataTypes.STRING},
+    price: {type: DataTypes.INTEGER},
     seatsLeft: {type: DataTypes.INTEGER},
 })
 const Hall = sequelize.define('hall', {
@@ -120,8 +118,8 @@ Link.belongsTo(User)
 
 /////////////////////////////
 
-Ticket.hasMany(Order)
-Order.belongsTo(Ticket)
+Order.hasMany(Ticket)
+Ticket.belongsTo(Order)
 
 EntranceОptionPrice.hasMany(Ticket)
 Ticket.belongsTo(EntranceОptionPrice)
@@ -153,7 +151,7 @@ Event.hasMany(EntranceОptionPrice)
 EntranceОptionPrice.belongsTo(Event)
 
 Event.hasMany(HallОptionPrice)
-HallОptionPrice.belongsTo(Hall)
+HallОptionPrice.belongsTo(Event)
 
 /////////
 
@@ -161,7 +159,7 @@ Hall.hasMany(HallОption)
 HallОption.belongsTo(Hall)
 
 HallОption.hasMany(HallОptionPrice)
-HallОptionPrice.hasMany(HallОption)
+HallОptionPrice.belongsTo(HallОption)
 
 ///////////
 

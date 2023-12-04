@@ -1,33 +1,35 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Drawer, Empty, Space} from "antd";
-import {fetchEvent, fetchOneEvent, fetchTypes} from "../../http/eventAPI";
 import {getEntrance} from "../../http/entranceAPI";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import {useParams} from "react-router-dom";
-import Link from "antd/es/typography/Link";
-import EventItem from "../../components/home/EventItem";
+import {useNavigate, useParams} from "react-router-dom";
 import Title from "antd/es/typography/Title";
 import EntranceLine from "../../components/event/entranceLine";
 import {createOrder} from "../../http/orderAPI";
+import { ORDER_ROUTE} from "../../utils/consts";
 
 const DrawerBuy = ({open, onClose, entranceId}) => {
     const { event, hall, user} = useContext(Context);
     const { id } = useParams();
+    const navigate = useNavigate()
 
     useEffect(() => {
-       if(event.event.entranceId){
-       getEntrance(event.event.entranceId, event.event.id).then(data => hall.setEntrance(data))
-       }
-       }, [event.event]);
+        if(event.event.entranceId){
+            getEntrance(event.event.entranceId, event.event.id).then(data => hall.setEntrance(data))
+        }
+    }, [event.event]);
 
     const  addOrder = () =>{
         console.log(user.user)
         const  formData = new FormData
         formData.append('userId', user.user.id)
         formData.append('tickets', JSON.stringify(hall.ticket))
-        createOrder(formData).then(data => console.log(data))
-    }
+        createOrder(formData).then(data => {
+           navigate(ORDER_ROUTE+ '/' + data.id)
+
+        })
+    };
 
     return (
         <Drawer
@@ -52,7 +54,7 @@ const DrawerBuy = ({open, onClose, entranceId}) => {
 
                 </Space>
             )}
-            <Button
+                      <Button
                 type="primary"
                 style={{
                     position: 'fixed',
@@ -70,5 +72,7 @@ const DrawerBuy = ({open, onClose, entranceId}) => {
         </Drawer>
     );
 };
+
+
 
 export default observer(DrawerBuy);

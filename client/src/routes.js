@@ -3,7 +3,7 @@ import {
     CREATOR_ROUTE,
     EVENT_ROUTE, HALL_ROUTE,
     HOME_ROUTE,
-    LOGIN_ROUTE,
+    LOGIN_ROUTE, ORDER_ROUTE,
     REGISTRATION_ROUTE,
     USER_ROUTE
 } from "./utils/consts";
@@ -16,6 +16,7 @@ import Creator from "./pages/creator/creator";
 import User from "./pages/user/user";
 import Admin from "./pages/admin/admin";
 import Hall from "./pages/event/hall";
+import Order from "./pages/event/order";
 
 export const  userRoutes = [
 
@@ -23,6 +24,11 @@ export const  userRoutes = [
         path: USER_ROUTE,
         Component: User
     },
+    {
+        path: ORDER_ROUTE + '/:id',
+        Component: Order
+    },
+
 ]
 
 

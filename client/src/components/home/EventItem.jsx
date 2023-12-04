@@ -44,7 +44,7 @@ const EventItem = ({thisEvent}) => {
                             opacity: '0.8'
                         }}
                     >
-                        от {thisEvent.price}₽
+                        от {thisEvent.minPrice}₽
                     </div>
                 </div>
             }
@@ -60,7 +60,7 @@ const EventItem = ({thisEvent}) => {
                 opacity: '0.8'
             }}>{thisEvent.ageRating? thisEvent.ageRating.age : null }+
             </div>
-            <Title level={4} style={{height: '2em'}}>
+            <Title level={4} style={{height: '3em'}}>
                 {thisEvent.title}
             </Title>
             <Title level={5} type="secondary" style={{height: '1em'}}>

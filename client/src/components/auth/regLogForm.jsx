@@ -92,7 +92,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                     {
 
                         message: 'не корректно',
-                        required: isRegistration,
+                        required: false,
                     },
                 ]}
             >
@@ -105,7 +105,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                 rules={[
                     {
                         message: 'введите фамилию',
-                        required: isRegistration,
+                        required: false,
                     },
                 ]}
             >
@@ -117,9 +117,10 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                 name="birthday"
                 rules={[
                     {
+
                         message: 'введите дату',
                         type: 'date',
-                        required: isRegistration,
+                        required: false,
                     },
                 ]}
             >

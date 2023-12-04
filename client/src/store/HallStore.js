@@ -3,6 +3,7 @@ export default class HallStore {
     constructor() {
         this._entrance = []
         this._ticket = []
+        this._hall = {}
 
         makeAutoObservable(this)
     }
@@ -13,6 +14,9 @@ export default class HallStore {
     setTicket(ticket) {
         this._ticket = ticket
     }
+    setHall(hall) {
+        this._hall = hall
+    }
 
 
     get entrance() {
@@ -20,5 +24,8 @@ export default class HallStore {
     }
     get ticket() {
         return this._ticket
+    }
+    get hall() {
+        return this._hall
     }
 }
