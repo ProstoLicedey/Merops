@@ -4,31 +4,31 @@ export  default  class UserStore{
         this._isAuth = false
         this._user = {}
         this._userProfile = {}
-        this._ordes = {}
+        this._orders = []
         makeAutoObservable(this)
     }
 
     setIsAuth(bool){
-        return this._isAuth = bool
+        this._isAuth = bool
 
     }
     setUser(user){
-        return this._user = user
+         this._user = user
 
     }
     setUserProfile(userProfile){
-        return this._userProfile = userProfile
+        this._userProfile = userProfile
 
     }
-    setOrders(ordes){
-        return this._ordes = ordes
+    setOrders(orders){
+        this._orders = orders
 
     }
     get isAuth(){
         return this._isAuth
     }
     get orders(){
-        return this.orders
+        return this._orders
     }
 
     get user(){

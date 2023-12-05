@@ -6,44 +6,50 @@ import EventItem from "../home/EventItem";
 import moment from "moment/moment";
 import {Context} from "../../index";
 import {getInfo, getOrders} from "../../http/userAPI";
+import {useNavigate} from "react-router-dom";
+import {HOME_ROUTE} from "../../utils/consts";
+import {observe} from "mobx";
+import {observer} from "mobx-react-lite";
+import OrderCard from "./orderCard";
+import Title from "antd/es/typography/Title";
 
 
-const Orders = () => {
+const Orders = observer(() => {
 
     const { user } = useContext(Context);
+    const navigate = useNavigate()
 
     useEffect(() => {
         if(user.user.id != undefined) {
-            getInfo(user.user.id).then(data => user.setOrders(data));
+            getOrders(user.user.id).then(data => user.setOrders(data));
         }
     }, [user.user]);
 
     return (
-    <div style={{display: "flex", justifyContent: "center", margin: "5vh"}}>
+        <div style={{margin: "3em", justifyContent: "center", minWidth:300}}>
+        <Title level={2} style={{  marginLeft:'1em',}}>Мои билеты</Title>
+    <div style={{display: "flex", justifyContent: "center", }}>
         <Row className="d-flex" style={{maxWidth: "1500px"}}>
-            {event.events.length === 0 ? (
+            {user.orders.length === 0 ? (
                 <Space direction="vertical" style={{display: "flex", textAlign: 'center', alignItems: 'center',  justifyContent: 'center', }}>
-                    <Empty description="По вашему запросу мероприятий не найдено("/>
+                    <Empty description="У вас пока нет билетов("/>
                     <Link onClick={() => {
-                        event.setPage()
-                        event.setSelectedType({})
-                        event.setSelectedDate({})
-                        event.setSelectedPrice({})
-                        event.setSerchTitle(null)
+                        navigate(HOME_ROUTE)
                     }}
 
-                    >Сброс настроек</Link>
+                    >Исрпавить</Link>
                 </Space>
             ) : (
                 <Space wrap size={"large"} style={{minWidth:260}}>
-                    {event.events.map(event =>
-                        <EventItem key={event.id} thisEvent={event}/>
+                    {user.orders.map(order =>
+                        <OrderCard key={order.id} thisOrder={order}/>
                     )}
                 </Space>
             )}
         </Row>
     </div>
+        </div>
     );
-};
+});
 
 export default Orders;

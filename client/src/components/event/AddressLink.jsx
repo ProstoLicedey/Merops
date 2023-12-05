@@ -6,7 +6,7 @@ import MapIcon from "../../assets/icon/MapIcon";
 
 const { Text, Link } = Typography;
 
-const AddressLink = ({adress, name}) => {
+const AddressLink = ({adress, name, styleIcon, styleTitle, level, underline}) => {
     const handleOpenMaps = () => {
         const mapsUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(adress)}`;
         window.open(mapsUrl, '_blank');
@@ -14,8 +14,8 @@ const AddressLink = ({adress, name}) => {
 
     return (
         <Row>
-            <MapIcon style={{width:30, height:30, marginRight: 5}}/>
-        <Title level={4} underline onClick={handleOpenMaps} style={{cursor:"pointer"}}>
+            <MapIcon style={styleIcon}/>
+        <Title level={level} underline={underline} onClick={handleOpenMaps} style={styleTitle}>
             {name}
         </Title>
         </Row>

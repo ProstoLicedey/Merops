@@ -91,7 +91,8 @@ class EventController {
     }
 
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
+        try {
         const {id} = req.params
         const event = await Event.findOne({
             where: {id},
@@ -131,6 +132,9 @@ class EventController {
             event.dataValues.minPrice = minPrice.price;
         }
         return res.json(event)
+    } catch (e) {
+        next(e)
+    }
     }
 
 }

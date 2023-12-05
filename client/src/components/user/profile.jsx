@@ -56,9 +56,10 @@ const Profile = () => {
         setIsFormChanged(true);
     };
     return (
-        <div style={{ margin: 30, minWidth: 300 }}>
-            <Card bordered={false} style={{ padding: 30 }}>
-                <Title level={2}>Контактные данные</Title>
+        <div style={{ margin:'3em', minWidth: 300 }}>
+            <Title  level={2}>Контактные данные</Title>
+            <Card bordered={false} style={{marginTop:"3"}} >
+
                 <Form form={form} onFinish={onFinish} onValuesChange={handleFormChange}>
                     <Tooltip title="Почту поменять нельзя(">
                     <Form.Item
@@ -110,7 +111,7 @@ const Profile = () => {
                     >
                         <DatePicker size={'large'} placeholder="Дата рождения" />
                     </Form.Item>
-                    <Form.Item style={{ textAlign: 'right' }}>
+                    <Form.Item style={{ textAlign: 'center' }}>
                         <Button
                             type="primary"
                             htmlType="submit"

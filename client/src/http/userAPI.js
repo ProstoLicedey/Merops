@@ -41,7 +41,7 @@ export  const getInfo = async (id) =>{
 }
 export  const getOrders = async (id) =>{
 
-    const {data} = await $authHost.get('/api/order/user' + id)
+    const {data} = await $authHost.get('/api/order/user/' + id)
     return data
 }
 export  const putUser = async (id, user) =>{

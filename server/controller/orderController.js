@@ -108,14 +108,17 @@ class OrderController {
                 const firstTicket = order.tickets.length > 0 ? order.tickets[0] : null;
 
                 let address = null;
+                let addressName = null;
 
                 if (firstTicket && firstTicket.event) {
                     const event = firstTicket.event;
 
                     if (event.entrance) {
-                        address = event.entrance.adress; // изменено с "adress" на "address"
+                        addressName = event.entrance.name;
+                        address = event.entrance.adress;
                     } else if (event.hall) {
-                        address = event.hall.adress; // изменено с "adress" на "address"
+                        addressName = event.hall.name;
+                        address = event.hall.adress;
                     }
                 }
                 return {
@@ -123,10 +126,15 @@ class OrderController {
                     ticketsCount,
                     dateTime: firstTicket && firstTicket.event ? firstTicket.event.dateTime : null,
                     address,
+                    addressName,
                      title: firstTicket && firstTicket.event ? firstTicket.event.title : null,
                     status: firstTicket && firstTicket.event ? firstTicket.event.Status : null,
                     img: firstTicket && firstTicket.event ? firstTicket.event.img : null,
                 };
+            });
+
+            formattedOrders.sort((a, b) => {
+                return new Date(b.dateTime) - new Date(a.dateTime);
             });
 
             return res.json(formattedOrders);

@@ -74,6 +74,10 @@ const Event = () => {
                             style={{marginTop: -10}}
                             name={event.event.hall ? event.event.hall.name : event.event.entrance ? event.event.entrance.name : null}
                             adress={event.event.hall ? event.event.hall.adress : event.event.entrance ? event.event.entrance.adress : null}
+                            styleIcon={{width:30, height:30, marginRight: 5}}
+                            styleTitle={{cursor:"pointer"}}
+                            level = {4}
+                            underline ={true}
                         />
                         <Row tyle={{display: 'flex', alignItems: 'center',}}>
                             <IconCalendar style={{width:30, height:30, marginRight: 5}}/>
