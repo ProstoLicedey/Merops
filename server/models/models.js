@@ -83,7 +83,6 @@ const Hall = sequelize.define('hall', {
 })
 const HallPassage = sequelize.define('hallPassage', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    adress: {type: DataTypes.STRING},
     afterRow: {type: DataTypes.INTEGER},
     afterSeat: {type: DataTypes.INTEGER},
 

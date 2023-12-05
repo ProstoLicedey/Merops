@@ -54,7 +54,7 @@ class UserService{
             throw ApiError.BadRequest('12')
         }
         if( !tokenFromDb){
-            throw ApiError.BadRequest('123')
+            throw ApiError.BadRequest('1234')
         }
 
        const  user = await User.findOne({where: {id: userData.id}})

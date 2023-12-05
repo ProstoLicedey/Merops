@@ -34,3 +34,18 @@ export  const  check = async () =>{
     return await $authHost.get('/api/user/auth',)
 }
 
+export  const getInfo = async (id) =>{
+
+    const {data} = await $authHost.get('/api/user/' + id)
+    return data
+}
+export  const getOrders = async (id) =>{
+
+    const {data} = await $authHost.get('/api/order/user' + id)
+    return data
+}
+export  const putUser = async (id, user) =>{
+
+    const {data} = await $host.put('/api/user/update/' + id, user )
+    return data
+}

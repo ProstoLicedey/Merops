@@ -4,8 +4,8 @@ import { Image, Menu, Space } from 'antd';
 import { Header } from "antd/es/layout/layout";
 import Search from "antd/es/input/Search";
 import { Typography } from 'antd';
-import { HOME_ROUTE, USER_ROUTE } from "../../utils/consts";
-import { NavLink } from "react-router-dom";
+import {EVENT_ROUTE, HOME_ROUTE, USER_ROUTE} from "../../utils/consts";
+import {NavLink, useNavigate} from "react-router-dom";
 import SerchInput from "../serch";
 import {useMediaQuery} from "react-responsive";
 import authModals from "../auth/authModals";
@@ -24,7 +24,16 @@ const HeaderPage = () => {
     const [open, setOpen] = useState(false);
     const {user} = useContext(Context)
     const [userName, setUserName] = React.useState('')
-
+    const navigate = useNavigate()
+    //открытие авторизации или профиля
+    const buttonUser = () => {
+        if(user.isAuth){
+            navigate(USER_ROUTE)
+        }
+        else {
+            setOpen(true);
+        }
+    };
 
     return (
         <Header style={{ display: 'flex', alignItems: 'center', height: '5vw', justifyContent:'space-between',  backgroundColor:'#391085'}}>
@@ -64,7 +73,7 @@ const HeaderPage = () => {
                        whiteSpace: 'nowrap',
                        fontSize: '1.8vw',
                    }}
-                   onClick={() => setOpen(true)}
+                   onClick={buttonUser}
             > {
                 user.isAuth ?
                     <UserOutlined/>
