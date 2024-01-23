@@ -9,13 +9,13 @@ const LinkService = require('./linkService')
 const  ApiError = require('../exeptions/apiError')
 
 class UserService{
-    async registration(email, password, name, surname, birthday){
+    async registration(email, password, name, surname, birthday, role){
         const candidate = await User.findOne({ where: { email: email } })
         if(candidate){
             throw ApiError.BadRequest( 'Пользователь с таким email уже зарегестрирован')
         }
         const hashPassword = await  bcrypt.hash(password,3 )
-        const user = await  User.create({email: email.toLowerCase(), password: hashPassword, name:name, surname: surname, birthday: birthday})
+        const user = await  User.create({email: email.toLowerCase(), password: hashPassword, name:name, surname: surname, birthday: birthday, role:role})
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await  LinkService.saveLink(userDto.id, email  )

@@ -8,6 +8,7 @@ import Title from "antd/es/typography/Title";
 import AddressLink from "../event/AddressLink";
 import MoneyIcon from "../../assets/icon/MoneyIcon";
 import Ticket from "../../assets/icon/Ticket";
+import PlaceHolder from '../../assets/placeholder.png'
 
 const OrderCard = ({thisOrder}) => {
             const navigate = useNavigate()
@@ -26,7 +27,7 @@ const OrderCard = ({thisOrder}) => {
                     }}>
                         <img
                             alt="photo"
-                            src={process.env.REACT_APP_API_URL + thisOrder.img}
+                            src={thisOrder.img? process.env.REACT_APP_API_URL + thisOrder.img : PlaceHolder}
                             style={{
                                 position: 'absolute',
                                 top: 0,

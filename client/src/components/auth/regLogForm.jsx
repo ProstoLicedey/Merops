@@ -135,7 +135,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                             form
                                 .validateFields()
                                 .then((values) => {
-                                    onCreate(values, user, isRegistration)
+                                    onCreate(values, user, isRegistration, 'USER' )
                                         .then(result => {
                                             if (result === true) {
                                                 console.log(result)

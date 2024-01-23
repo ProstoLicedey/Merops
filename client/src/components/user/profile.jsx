@@ -58,7 +58,7 @@ const Profile = () => {
     return (
         <div style={{ margin:'3em', minWidth: 300 }}>
             <Title  level={2}>Контактные данные</Title>
-            <Card bordered={false} style={{marginTop:"3"}} >
+            <Card style={{marginTop:"3"}}>
 
                 <Form form={form} onFinish={onFinish} onValuesChange={handleFormChange}>
                     <Tooltip title="Почту поменять нельзя(">

@@ -27,7 +27,7 @@ const Orders = observer(() => {
 
     return (
         <div style={{margin: "3em", justifyContent: "center", minWidth:300}}>
-        <Title level={2} style={{  marginLeft:'1em',}}>Мои билеты</Title>
+        <Title level={2} s>Мои билеты</Title>
     <div style={{display: "flex", justifyContent: "center", }}>
         <Row className="d-flex" style={{maxWidth: "1500px"}}>
             {user.orders.length === 0 ? (

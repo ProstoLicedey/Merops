@@ -1,10 +1,10 @@
 import {
-    ADMIN_ROUTE,
-    CREATOR_ROUTE,
+    ADMIN_ROUTE, CREATEEVENT_ROUTE,
+    CREATOR_ROUTE, CREATORINFO_ROUTE, CREATORREGIST_ROUTE,
     EVENT_ROUTE, HALL_ROUTE,
     HOME_ROUTE,
     LOGIN_ROUTE, ORDER_ROUTE,
-    REGISTRATION_ROUTE,
+    REGISTRATION_ROUTE, TICKET_ROUTE, TICKETCHEK_ROUTE,
     USER_ROUTE
 } from "./utils/consts";
 
@@ -17,6 +17,9 @@ import User from "./pages/user/user";
 import Admin from "./pages/admin/admin";
 import Hall from "./pages/event/hall";
 import Order from "./pages/event/order";
+import CreatorRegist from "./pages/creator/creatorRegist";
+import TicketCheck from "./pages/creator/ticketCheck";
+import CreateEvent from "./pages/creator/createEvent";
 
 export const  userRoutes = [
 
@@ -36,6 +39,18 @@ export  const creatorRoutes = [
     {
         path: CREATOR_ROUTE,
         Component: Creator
+    },
+    {
+        path: TICKETCHEK_ROUTE+ '/:id',
+        Component: TicketCheck
+    },
+    {
+        path: CREATEEVENT_ROUTE + '/:id',
+        Component: CreateEvent
+    },
+    {
+        path: CREATEEVENT_ROUTE,
+        Component: CreateEvent
     },
 
 ]
@@ -68,4 +83,9 @@ export  const publicRoutes = [
         path: HALL_ROUTE + '/:id',
         Component: Hall
     },
+    {
+        path: CREATORREGIST_ROUTE,
+        Component: CreatorRegist
+    },
+
 ]

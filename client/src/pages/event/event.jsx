@@ -116,12 +116,12 @@ const Event = () => {
                                             navigate(HALL_ROUTE + '/' + event.event.id)
                                         }
                                     } else {
-                                        console.log(123)
+
                                         setOpenAuth(true);
                                     }
                                 }}
                             >
-                                {event.event.hall ? 'Выбрать место' : 'Зарегестрироваться'}
+                                {event.event.hall ? 'Выбрать место' : 'Бронировать'}
                             </Button>
                             <ShareButton/>
                         </Space>

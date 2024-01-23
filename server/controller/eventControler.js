@@ -4,6 +4,7 @@ const {Event, DeviceInfo, Entrance, Hall, AgeRating, Type, EntranceОptionPrice,
 const {Op, fn, col} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
+const moment = require('moment');
 
 class EventController {
 
@@ -135,6 +136,45 @@ class EventController {
     } catch (e) {
         next(e)
     }
+    }
+
+    async getCreator(req, res, next) {
+        try {
+            let {userId} = req.query;
+            const events = await Event.findAll({
+                where: {userId},
+                include: [
+                    {model: Hall, as: 'hall'},
+                    {model: Entrance, as: 'entrance'}
+                ]
+            })
+
+
+            // Преобразование данных
+            const formattedEvents = events.map(event => {
+                const formattedEvent = {
+                    id: event.id,
+                    title: event.title,
+                    dateTime: moment(event.dateTime).locale('ru').format('DD MMMM HH:mm ddd'),
+                };
+
+                // Добавление адреса из Entrance, если entranceId не равно null
+                if (event.entranceId !== null ) {
+                    formattedEvent.address = event.entrance.adress;
+                }
+                // Или добавление адреса из Hall, если entranceId равно null
+                else if (event.hall !== null) {
+                    formattedEvent.address = event.hall.adress;
+                }
+
+                return formattedEvent;
+            });
+
+            return res.json(formattedEvents);
+        }
+        catch (e) {
+            next(e)
+        }
     }
 
 }

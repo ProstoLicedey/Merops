@@ -4,7 +4,7 @@ import { Image, Menu, Space } from 'antd';
 import { Header } from "antd/es/layout/layout";
 import Search from "antd/es/input/Search";
 import { Typography } from 'antd';
-import {EVENT_ROUTE, HOME_ROUTE, USER_ROUTE} from "../../utils/consts";
+import {CREATOR_ROUTE, EVENT_ROUTE, HOME_ROUTE, USER_ROUTE} from "../../utils/consts";
 import {NavLink, useNavigate} from "react-router-dom";
 import SerchInput from "../serch";
 import {useMediaQuery} from "react-responsive";
@@ -27,8 +27,14 @@ const HeaderPage = () => {
     const navigate = useNavigate()
     //открытие авторизации или профиля
     const buttonUser = () => {
-        if(user.isAuth){
+        if(user.isAuth & user.user.role == 'USER'){
             navigate(USER_ROUTE)
+        }
+        else if(user.isAuth & user.user.role == 'CREATOR'){
+        navigate(CREATOR_ROUTE)
+        }
+        else if(user.isAuth & user.user.role == 'ADMIN'){
+        navigate(CREATOR_ROUTE)
         }
         else {
             setOpen(true);

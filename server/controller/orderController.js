@@ -1,5 +1,4 @@
-const uuid = require('uuid') // пакт для генерации id для картинок
-const path = require('path') // сохрание пути для картинки
+
 const {Type, Order, Ticket, EntranceОptionPrice, UpdatePassword, Event, EntranceОption, Entrance, User} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')

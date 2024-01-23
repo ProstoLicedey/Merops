@@ -4,6 +4,8 @@ import App from './App';
 import UserStore from "./store/UserStore";
 import EventStore from "./store/EventStore";
 import HallStore from "./store/HallStore";
+import TicketStore from "./store/TicketStore";
+import CreatorStore from "./store/CreatorStore";
 
 
 export const Context = createContext(null)
@@ -15,7 +17,9 @@ root.render(
         <Context.Provider value={{
             hall : new HallStore(),
             user: new UserStore(),
-            event: new EventStore()
+            event: new EventStore(),
+            ticket: new TicketStore(),
+            creator: new CreatorStore()
         }}>
             <App />
         </Context.Provider>

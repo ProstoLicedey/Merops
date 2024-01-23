@@ -160,6 +160,10 @@ HallОption.belongsTo(Hall)
 HallОption.hasMany(HallОptionPrice)
 HallОptionPrice.belongsTo(HallОption)
 
+
+Hall.hasMany(HallPassage)
+HallPassage.belongsTo(Hall)
+
 ///////////
 
 Entrance.hasMany(EntranceОption)
@@ -168,6 +172,10 @@ EntranceОption.belongsTo(Entrance)
 EntranceОption.hasMany(EntranceОptionPrice)
 EntranceОptionPrice.belongsTo(EntranceОption)
 
+
+
+EntranceОption.hasMany(EntranceОptionPrice)
+EntranceОptionPrice.belongsTo(EntranceОption)
 module.exports = {
     User,
     Token,

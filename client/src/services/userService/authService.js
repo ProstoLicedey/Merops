@@ -1,6 +1,6 @@
 import { login, registration } from "../../http/userAPI";
 
-const onCreate = async (values, user, isRegistration) => {
+const onCreate = async (values, user, isRegistration, role) => {
     try {
         let data;
         if (!isRegistration) {
@@ -11,7 +11,8 @@ const onCreate = async (values, user, isRegistration) => {
                 values.password,
                 values.name,
                 values.surname,
-                values.birthday
+                values.birthday,
+                role
             );
         }
         if (data) {
@@ -19,7 +20,7 @@ const onCreate = async (values, user, isRegistration) => {
             user.setIsAuth(true);
             return true;
         }
-
+        return true;
     } catch (e) {
         return e;
     }
