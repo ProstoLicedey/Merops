@@ -26,7 +26,7 @@ const Home = observer( () =>  {
         })
     }, []);
     useEffect(() => {
-        fetchEvent(event.selectedType.id, event.page, event.selectedPrice, event.selectedDate, event.serchTitle).then(data => {
+        fetchEvent(event.selectedType.value, event.page, event.selectedPrice, event.selectedDate, event.serchTitle).then(data => {
             event.setEvents(data.rows)
             event.setTotalCount(data.count)
         })

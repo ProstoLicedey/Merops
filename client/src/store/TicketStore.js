@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 export  default  class TicketStore{
     constructor() {
         this._ticket = {}
+        this._controllerTicket = null
         makeAutoObservable(this)
     }
 
@@ -9,9 +10,16 @@ export  default  class TicketStore{
         this._ticket = ticket
 
     }
+    setControllerTicket(controllerTicket){
+        this._controllerTicket = controllerTicket
+
+    }
 
     get ticket(){
         return this._ticket
+    }
+    get controllerTicket(){
+        return this._controllerTicket
     }
 
 

@@ -17,6 +17,7 @@ export  default  class UserStore{
 
     }
     setUserProfile(userProfile){
+
         this._userProfile = userProfile
 
     }

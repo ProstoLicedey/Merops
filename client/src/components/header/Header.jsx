@@ -1,8 +1,7 @@
 import React, {useContext, useState} from 'react';
 import Logo from '../../assets/logo.png'
 import { Image, Menu, Space } from 'antd';
-import { Header } from "antd/es/layout/layout";
-import Search from "antd/es/input/Search";
+//import { Header } from "antd/es/layout/layout";
 import { Typography } from 'antd';
 import {CREATOR_ROUTE, EVENT_ROUTE, HOME_ROUTE, USER_ROUTE} from "../../utils/consts";
 import {NavLink, useNavigate} from "react-router-dom";
@@ -13,7 +12,7 @@ import CollectionCreateForm from "../auth/authModals";
 import {Context} from "../../index";
 import {UserOutlined} from "@ant-design/icons";
 import {observer} from "mobx-react-lite";
-
+import {Header} from "antd/es/layout/layout";
 const { Title } = Typography;
 
 

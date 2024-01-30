@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, DeviceInfo, Entrance, Hall, AgeRating, Type, EntranceОptionPrice, HallОptionPrice} = require('../models/models')
+const {Event, DeviceInfo, Entrance, Hall, AgeRating, Type, EntranceOptionPrice, HallOptionPrice} = require('../models/models')
 const {Op, fn, col} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -70,7 +70,7 @@ class EventController {
             });
             for (let i = events.rows.length - 1; i >= 0; i--) {
                 let event = events.rows[i];
-                let minPrice = await EntranceОptionPrice.findOne({
+                let minPrice = await EntranceOptionPrice.findOne({
                     where: { eventId: event.id },
                     order: [['price', 'ASC']],
                 });
@@ -105,12 +105,12 @@ class EventController {
             ]
         })
         if(event.entrance) {
-            const minPrice = await EntranceОptionPrice.findOne({
+            const minPrice = await EntranceOptionPrice.findOne({
                 where: {eventId: id},
                 order: [['price', 'ASC']],
                 attributes: ['price']
             });
-            const maxPrice = await EntranceОptionPrice.findOne({
+            const maxPrice = await EntranceOptionPrice.findOne({
                 where: {eventId: id},
                 order: [['price', 'DESC']],
                 attributes: ['price']
@@ -119,12 +119,12 @@ class EventController {
             event.dataValues.minPrice = minPrice.price;
         }
         if(event.hall) {
-            const minPrice = await HallОptionPrice.findOne({
+            const minPrice = await HallOptionPrice.findOne({
                 where: {eventId: id},
                 order: [['price', 'ASC']],
                 attributes: ['price']
             });
-            const maxPrice = await HallОptionPrice.findOne({
+            const maxPrice = await HallOptionPrice.findOne({
                 where: {eventId: id},
                 order: [['price', 'DESC']],
                 attributes: ['price']

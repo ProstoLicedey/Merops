@@ -15,6 +15,7 @@ import moment from "moment";
 import {CalendarOutlined} from "@ant-design/icons";
 import IconCalendar from "../../assets/icon/CalendarIcon";
 import MoneyIcon from "../../assets/icon/MoneyIcon";
+import {ReCAPTCHA} from "react-google-recaptcha";
 
 const {Text, Link} = Typography;
 const {Panel} = Collapse;
@@ -44,6 +45,7 @@ const Event = () => {
 
     return (
         <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+            
             <Row style={{margin: '5%'}}>
                 <Col md={6}>
                     <Image

@@ -1,18 +1,24 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Button,
-    Cascader,
+    Cascader, ConfigProvider,
     DatePicker,
     Form,
     Input,
     InputNumber,
-    Mentions,
+    Mentions, message,
     Select,
-    TreeSelect,
+    TreeSelect, Upload,
 } from 'antd';
 import {Text} from "@react-pdf/renderer";
 import Title from "antd/es/typography/Title";
 import {useParams} from "react-router-dom";
+import {observer} from "mobx-react-lite";
+import TextArea from "antd/es/input/TextArea";
+import {UploadOutlined} from "@ant-design/icons";
+import ruRU from "antd/es/locale/ru_RU";
+import {Context} from "../../index";
+import {fetchEvent, fetchTypes} from "../../http/eventAPI";
 const { RangePicker } = DatePicker;
 const formItemLayout = {
     labelCol: {
@@ -20,7 +26,7 @@ const formItemLayout = {
             span: 24,
         },
         sm: {
-            span: 6,
+            span: 10,
         },
     },
     wrapperCol: {
@@ -34,13 +40,48 @@ const formItemLayout = {
 };
 const CreateEvent = () =>{
     const {id} = useParams();
+    const {event} = useContext(Context)
+    const [fileUploaded, setFileUploaded] = useState(false);
+
+    const titleText = id == undefined ? "Создание мероприятия" : "Редактирование мероприятия";
+
+
+    useEffect(() => {
+        fetchTypes().then(data => event.setTypes(data))
+       console.log(event.types)
+    }, []);
+
+
+    const normFile = (e) => {
+        if (Array.isArray(e)) {
+            const fileList = e;
+            setFileUploaded(fileList.length > 0); // Update state based on whether a file is present
+            return fileList;
+        }
+        return e?.fileList.slice(-1); // Ensure only the last uploaded file is kept
+    };
+
+    const beforeUpload = async (file) => {
+        const isImage = file.type.startsWith('image/');
+        if (!isImage) {
+            message.error('Можно загружать только изображения!');
+            return Promise.reject();
+        }
+        if (Array.isArray(file)){
+
+            setFileUploaded(false); // Update state based on whether a file is present
+        }
+        setFileUploaded(true);
+        return Promise.resolve();
+    };
 
 return(
     <div style={{margin: '2%'}}>
         <Title level={2}>
-            Создание мероприятия
+            {titleText}
         </Title>
     <Form
+        title={"Общая информация"}
         {...formItemLayout}
         variant="filled"
         style={{
@@ -48,8 +89,8 @@ return(
         }}
     >
         <Form.Item
-            label="Input"
-            name="Input"
+            label="Название"
+            name="Name"
             rules={[
                 {
                     required: true,
@@ -61,8 +102,8 @@ return(
         </Form.Item>
 
         <Form.Item
-            label="InputNumber"
-            name="InputNumber"
+            label="Описание"
+            name="Discription"
             rules={[
                 {
                     required: true,
@@ -70,102 +111,81 @@ return(
                 },
             ]}
         >
-            <InputNumber
-                style={{
-                    width: '100%',
+            <TextArea
+                autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
                 }}
+            />
+            <div
+
             />
         </Form.Item>
 
         <Form.Item
-            label="TextArea"
-            name="TextArea"
+            label="Дата и время"
+            name="DateTime"
             rules={[
                 {
                     required: true,
-                    message: 'Please input!',
+                    message: '123',
                 },
             ]}
         >
-            <Input.TextArea />
+            <ConfigProvider locale={ruRU}>
+                 <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+            </ConfigProvider>
         </Form.Item>
 
         <Form.Item
-            label="Mentions"
-            name="Mentions"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+            label="Изображение"
+            name="Image"
             rules={[
                 {
                     required: true,
-                    message: 'Please input!',
+                    message: 'Загрузите картинку',
                 },
             ]}
         >
-            <Mentions />
+            <Upload
+                listType="picture"
+                maxCount={1}
+                beforeUpload={beforeUpload}
+                onRemove={() => setFileUploaded(false)}
+                accept={"image/png, image/jpeg"}
+            >
+                {!fileUploaded && <Button icon={<UploadOutlined />}>Загрузить</Button>}
+            </Upload>
         </Form.Item>
 
         <Form.Item
-            label="Select"
-            name="Select"
+            label="Тип меропрития"
+            name="Type"
+
             rules={[
                 {
                     required: true,
-                    message: 'Please input!',
+                    message: 'Выберите тип вашего мероприятия',
                 },
             ]}
         >
-            <Select />
+            <Select options={event.types}/>
         </Form.Item>
 
         <Form.Item
-            label="Cascader"
-            name="Cascader"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input!',
-                },
-            ]}
-        >
-            <Cascader />
-        </Form.Item>
+            label="Возрастное ограничение"
+            name="AgeReating"
 
-        <Form.Item
-            label="TreeSelect"
-            name="TreeSelect"
             rules={[
                 {
                     required: true,
-                    message: 'Please input!',
+                    message: 'Укажите возрастное органичение мероприятия',
                 },
             ]}
         >
-            <TreeSelect />
-        </Form.Item>
-
-        <Form.Item
-            label="DatePicker"
-            name="DatePicker"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input!',
-                },
-            ]}
-        >
-            <DatePicker />
-        </Form.Item>
-
-        <Form.Item
-            label="RangePicker"
-            name="RangePicker"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input!',
-                },
-            ]}
-        >
-            <RangePicker />
+            <Select options={event.types}/>
         </Form.Item>
 
         <Form.Item
@@ -175,11 +195,11 @@ return(
             }}
         >
             <Button type="primary" htmlType="submit">
-                Submit
+                Далее
             </Button>
         </Form.Item>
     </Form>
     </div>
 );
 }
-export default CreateEvent;
+export default observer(CreateEvent);

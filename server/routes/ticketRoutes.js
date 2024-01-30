@@ -4,7 +4,8 @@ const  ticketController = require('../controller/ticketController')
 
 
 router.post('/',)
-router.get('/', )
+router.get('/:number', ticketController.getTicket )
+router.get('/checked/:number', ticketController.Checked )
 router.get('/:id', ticketController.getTicket )
 router.put('/',)
 router.delete('/',)

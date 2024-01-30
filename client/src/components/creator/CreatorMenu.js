@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     BarcodeOutlined,
     CalendarOutlined,
@@ -6,6 +6,8 @@ import {
      TeamOutlined, UserOutlined
 } from '@ant-design/icons';
 import { Menu } from 'antd';
+import {Context} from "../../index";
+import {observer} from "mobx-react-lite";
 function getItem(label, key, icon,  type) {
     return {
         key,
@@ -15,16 +17,17 @@ function getItem(label, key, icon,  type) {
     };
 }
 const items = [
-    getItem('Мероприятия', '1',<CalendarOutlined />, ),
-    getItem('Залы', '2', <EnvironmentOutlined />, ),
-    getItem('Покупатели', '3', <TeamOutlined />, ),
-    getItem('Контролеры', '5', <BarcodeOutlined />, ),
-    getItem('Обо мне', '4', <UserOutlined />, ),
+    getItem('Мероприятия', 'events',<CalendarOutlined />, ),
+    getItem('Залы', 'zal', <EnvironmentOutlined />, ),
+    getItem('Покупатели', 'buyers', <TeamOutlined />, ),
+    getItem('Контролеры', 'controler', <BarcodeOutlined />, ),
 
 ];
 const CreatorMenu = () => {
+    const  {creator} = useContext(Context)
     const onClick = (e) => {
-        console.log('click ', e);
+        creator.setPlan(e.key)
+
     };
     return (
         <Menu
@@ -32,11 +35,11 @@ const CreatorMenu = () => {
             style={{
                 width: 256,
             }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['0']}
             defaultOpenKeys={['sub1']}
             mode="inline"
             items={items}
         />
     );
 };
-export default CreatorMenu;
+export default observer(CreatorMenu);

@@ -70,7 +70,7 @@ const Ticket = ({order}) => {
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>
                         {" Адрес: "}
                         <Text style={{ color: 'black'}}>
-                            {ticket.entranceОptionPrice.entranceОption.entrance.name} ({ticket.entranceОptionPrice.entranceОption.entrance.adress})
+                            {ticket.entranceOptionPrice.entranceOption.entrance.name} ({ticket.entranceOptionPrice.entranceOption.entrance.adress})
                         </Text>
                     </Text>
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>
@@ -82,14 +82,14 @@ const Ticket = ({order}) => {
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>
                         {"Стоимость: "}
                         <Text style={{ color: 'black'}}>
-                            {ticket.entranceОptionPrice.price} руб.
+                            {ticket.entranceOptionPrice.price} руб.
                         </Text>
                     </Text>
 
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>
                         Категория:
                         <Text style={{ color: 'black'}}>
-                            {ticket.entranceОptionPrice.entranceОption.name}
+                            {ticket.entranceOptionPrice.entranceOption.name}
                         </Text>
                     </Text>
                     <Text style={{fontSize: 12, flex: 1, textAlign: 'center'}}>

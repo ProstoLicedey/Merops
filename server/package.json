@@ -23,6 +23,7 @@
     "nodemailer": "^6.9.5",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
+    "react-google-recaptcha": "^3.1.0",
     "sequelize": "^6.33.0",
     "uuid": "^9.0.1"
   },

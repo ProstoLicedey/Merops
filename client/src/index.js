@@ -6,6 +6,7 @@ import EventStore from "./store/EventStore";
 import HallStore from "./store/HallStore";
 import TicketStore from "./store/TicketStore";
 import CreatorStore from "./store/CreatorStore";
+import {ReCAPTCHA} from "react-google-recaptcha";
 
 
 export const Context = createContext(null)
@@ -13,7 +14,9 @@ export const Context = createContext(null)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
     <React.StrictMode>
+        
         <Context.Provider value={{
             hall : new HallStore(),
             user: new UserStore(),

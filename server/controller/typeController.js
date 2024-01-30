@@ -15,7 +15,10 @@ class TypeController {
 
     async getAll(req, res) {
         const types = await Type.findAll()
-        return res.json(types)
+        const formattedTypes = types.map(type => {
+            return { label: type.name, value: type.id };
+        });
+        return res.json(formattedTypes);
     }
 
 

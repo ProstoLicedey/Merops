@@ -1,5 +1,5 @@
 import {
-    ADMIN_ROUTE, CREATEEVENT_ROUTE,
+    ADMIN_ROUTE, CONTROLLER_CREATOR_ROUTE, CREATEEVENT_ROUTE,
     CREATOR_ROUTE, CREATORINFO_ROUTE, CREATORREGIST_ROUTE,
     EVENT_ROUTE, HALL_ROUTE,
     HOME_ROUTE,
@@ -20,6 +20,7 @@ import Order from "./pages/event/order";
 import CreatorRegist from "./pages/creator/creatorRegist";
 import TicketCheck from "./pages/creator/ticketCheck";
 import CreateEvent from "./pages/creator/createEvent";
+import ControllerCreator from "./pages/creator/controllerCreator";
 
 export const  userRoutes = [
 
@@ -51,6 +52,10 @@ export  const creatorRoutes = [
     {
         path: CREATEEVENT_ROUTE,
         Component: CreateEvent
+    },
+    {
+        path: CONTROLLER_CREATOR_ROUTE,
+        Component: ControllerCreator
     },
 
 ]

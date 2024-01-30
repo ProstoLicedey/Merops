@@ -63,12 +63,12 @@ const Entrance = sequelize.define('entrance', {
     totalSeats: {type: DataTypes.INTEGER},
 
 })
-const EntranceОption = sequelize.define('entranceОption', {
+const EntranceOption = sequelize.define('entranceOption', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING},
     totalSeats: {type: DataTypes.INTEGER},
 })
-const EntranceОptionPrice = sequelize.define('entranceОptionPrice', {
+const EntranceOptionPrice = sequelize.define('entranceOptionPrice', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER},
     seatsLeft: {type: DataTypes.INTEGER},
@@ -87,7 +87,7 @@ const HallPassage = sequelize.define('hallPassage', {
     afterSeat: {type: DataTypes.INTEGER},
 
 })
-const HallОption = sequelize.define('hallОption', {
+const HallOption = sequelize.define('hallOption', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING},
     rowStart: {type: DataTypes.INTEGER},
@@ -96,7 +96,7 @@ const HallОption = sequelize.define('hallОption', {
     seatFinish: {type: DataTypes.INTEGER},
 
 })
-const HallОptionPrice = sequelize.define('hallОptionPrice', {
+const HallOptionPrice = sequelize.define('hallOptionPrice', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER},
 
@@ -120,11 +120,11 @@ Link.belongsTo(User)
 Order.hasMany(Ticket)
 Ticket.belongsTo(Order)
 
-EntranceОptionPrice.hasMany(Ticket)
-Ticket.belongsTo(EntranceОptionPrice)
+EntranceOptionPrice.hasMany(Ticket)
+Ticket.belongsTo(EntranceOptionPrice)
 
-HallОptionPrice.hasMany(Ticket)
-Ticket.belongsTo(HallОptionPrice)
+HallOptionPrice.hasMany(Ticket)
+Ticket.belongsTo(HallOptionPrice)
 
 User.hasMany(Event)
 User.belongsTo(AgeRating)
@@ -146,19 +146,19 @@ Event.belongsTo(Entrance)
 Hall.hasMany(Event)
 Event.belongsTo(Hall)
 
-Event.hasMany(EntranceОptionPrice)
-EntranceОptionPrice.belongsTo(Event)
+Event.hasMany(EntranceOptionPrice)
+EntranceOptionPrice.belongsTo(Event)
 
-Event.hasMany(HallОptionPrice)
-HallОptionPrice.belongsTo(Event)
+Event.hasMany(HallOptionPrice)
+HallOptionPrice.belongsTo(Event)
 
 /////////
 
-Hall.hasMany(HallОption)
-HallОption.belongsTo(Hall)
+Hall.hasMany(HallOption)
+HallOption.belongsTo(Hall)
 
-HallОption.hasMany(HallОptionPrice)
-HallОptionPrice.belongsTo(HallОption)
+HallOption.hasMany(HallOptionPrice)
+HallOptionPrice.belongsTo(HallOption)
 
 
 Hall.hasMany(HallPassage)
@@ -166,16 +166,16 @@ HallPassage.belongsTo(Hall)
 
 ///////////
 
-Entrance.hasMany(EntranceОption)
-EntranceОption.belongsTo(Entrance)
+Entrance.hasMany(EntranceOption)
+EntranceOption.belongsTo(Entrance)
 
-EntranceОption.hasMany(EntranceОptionPrice)
-EntranceОptionPrice.belongsTo(EntranceОption)
+EntranceOption.hasMany(EntranceOptionPrice)
+EntranceOptionPrice.belongsTo(EntranceOption)
 
 
 
-EntranceОption.hasMany(EntranceОptionPrice)
-EntranceОptionPrice.belongsTo(EntranceОption)
+EntranceOption.hasMany(EntranceOptionPrice)
+EntranceOptionPrice.belongsTo(EntranceOption)
 module.exports = {
     User,
     Token,
@@ -187,11 +187,11 @@ module.exports = {
     AgeRating,
     Type,
     Entrance,
-    EntranceОption,
-    EntranceОptionPrice,
+    EntranceOption,
+    EntranceOptionPrice,
     Hall,
     HallPassage,
-    HallОption,
-    HallОptionPrice,
+    HallOption,
+    HallOptionPrice,
 
 }

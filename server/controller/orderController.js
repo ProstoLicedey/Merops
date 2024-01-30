@@ -1,5 +1,5 @@
 
-const {Type, Order, Ticket, EntranceОptionPrice, UpdatePassword, Event, EntranceОption, Entrance, User} = require('../models/models')
+const {Type, Order, Ticket,datePassword, Event, Entrance, User, EntranceOptionPrice, EntranceOption} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
 const fse = require('fs-extra');
@@ -21,7 +21,7 @@ class OrderController {
                         String(userId).substr(0, 1) +
                         String(order.id).substr(0, 1) +
                         (Math.floor(Math.random() * 9000) + 1000);
-                    let entranceOptionPrice = await EntranceОptionPrice.findOne({
+                    let entranceOptionPrice = await EntranceOptionPrice.findOne({
                         where: { id: i.entranceOptionPriceId },
                     });
 
@@ -32,7 +32,7 @@ class OrderController {
                         orderId: order.id,
                         eventId: i.eventId,
                         number: Number(number),
-                        entranceОptionPriceId: i.entranceOptionPriceId,
+                        entranceOptionPriceId: i.entranceOptionPriceId,
                     });
                 }
             }
@@ -59,12 +59,12 @@ class OrderController {
                         as: 'event'
                     },
                     {
-                        model: EntranceОptionPrice,
-                        as: 'entranceОptionPrice',
+                        model: EntranceOptionPrice,
+                        as: 'entranceOptionPrice',
                         include: [
                             {
-                                model: EntranceОption,
-                                as: 'entranceОption',
+                                model: EntranceOption,
+                                as: 'entranceOption',
                                 include: [
                                     {
                                         model: Entrance,

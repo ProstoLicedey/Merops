@@ -3,6 +3,7 @@ import {Alert, Button, DatePicker, Form, Input, Typography} from "antd";
 import onCreate from "../../services/userService/authService";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
+import {ReCAPTCHA} from "react-google-recaptcha";
 const {Text, Link} = Typography
 
 const RegLogForm = ({title, onCancel, setPassUpdate}) => {
@@ -10,6 +11,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
     const [form] = Form.useForm();
     const [isRegistration, setIsRegistration] = useState(false);
     const [message, setMessage] = useState(false);
+    const [buttonActiv, setButtonActiv] = useState(false);
     const {user} = useContext(Context)
     const [openPas, setOpenPas] = useState(false);
     if(isRegistration){
@@ -17,6 +19,9 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
     }
     else{
         title("Авторизация")
+    }
+    const recap = () => {
+        setButtonActiv(true)
     }
     return (
         <Form
@@ -41,7 +46,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                     },
                 ]}
             >
-                <Input/>
+                <Input />
             </Form.Item>
 
             <Form.Item
@@ -127,9 +132,14 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                 <DatePicker sty placeholder=""/>
             </Form.Item>
 
+                <ReCAPTCHA
+                    sitekey="6Ld9w1wpAAAAAIzgIfAAoZ-azpFGzxS6PenaVnzz"
+                    onChange={recap}
+                />
 
             <Form.Item style={{textAlign: 'center'}}>
                 <Button type="primary" htmlType="submit" style={{width: 200, height: 40, fontSize: 18,  backgroundColor:'#722ed1'}}
+                       // disabled = {!buttonActiv}
                         onClick={() => {
                             setMessage('')
                             form

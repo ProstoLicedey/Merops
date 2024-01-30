@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, EntranceОption, EntranceОptionPrice} = require('../models/models')
+const {Event, EntranceOptionPrice, EntranceOption} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -34,13 +34,13 @@ class EventController {
         try {
             const { id } = req.params;
             let {eventId} = req.query
-            const event = await EntranceОption.findAll({
+            const event = await EntranceOption.findAll({
                 where: { entranceId: id },
             });
 
             const updatedEvent = await Promise.all(event.map(async (item) => {
-                const entranceOptionPrice = await EntranceОptionPrice.findOne({
-                    where: { eventId: eventId, entranceОptionId: item.id },
+                const entranceOptionPrice = await EntranceOptionPrice.findOne({
+                    where: { eventId: eventId, entranceOptionId: item.id },
                 });
 
                 return { ...item.toJSON(), entranceOptionPrice };

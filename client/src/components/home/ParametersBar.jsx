@@ -14,7 +14,7 @@ const ParametersBar = observer(() => {
 
     const {event} = useContext(Context)
     const getBackgroundColor = (type) => {
-        return type.id === event.selectedType.id ? '#b37feb' : 'inherit';
+        return type.value === event.selectedType.value ? '#b37feb' : 'inherit';
     };
     const handleDateChange = (dates) => {
 
@@ -73,7 +73,7 @@ const ParametersBar = observer(() => {
                             onClick={() => event.setSelectedType(type)}
                             style={{backgroundColor: getBackgroundColor(type), cursor: 'pointer'}}
                         >
-                            {type.name}
+                            {type.label}
                         </List.Item>
                     )}
                 />
