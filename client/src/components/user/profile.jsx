@@ -5,12 +5,18 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
 import moment from 'moment';
 import {USER_ROUTE} from "../../utils/consts";
-import {putUser} from "../../http/userAPI"; // Import moment
+import {getInfo, putUser} from "../../http/userAPI"; // Import moment
 
 const Profile = () => {
     const { user } = useContext(Context);
     const [form] = Form.useForm();
     const [isFormChanged, setIsFormChanged] = useState(false);
+    useEffect(() => {
+        if(user.user.id != undefined) {
+            getInfo(user.user.id).then(data => user.setUserProfile(data));
+        }
+    }, [user.user]);
+
     useEffect(() => {
         form.setFieldsValue({
             email: user.userProfile.email || '',
@@ -86,18 +92,18 @@ const Profile = () => {
                             },
                         ]}
                     >
-                        <Input size={'large'} placeholder="Имя" />
+                        <Input size={'large'} placeholder={user.user && user.user.role === 'USER' ? 'Имя' : 'Название организации'} />
                     </Form.Item>
                     <Form.Item
                         name="surname"
                         rules={[
                             {
-                                message: 'введите фамилию',
+                                message: 'не корректо',
                                 required: false,
                             },
                         ]}
                     >
-                        <Input size={'large'} placeholder="Фамилия" />
+                        <Input size={'large'} placeholder={user.user && user.user.role === 'USER' ? 'Фамилия' : 'Описание организации'} />
                     </Form.Item>
                     <Form.Item
                         name="birthday"

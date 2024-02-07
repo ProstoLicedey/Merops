@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, EntranceOptionPrice, EntranceOption} = require('../models/models')
+const {Event, EntranceOptionPrice, EntranceOption, Entrance} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -47,6 +47,63 @@ class EventController {
             }));
 
             return res.json(updatedEvent);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+    async getByID(req, res, next) {
+        try {
+            const { id } = req.params;
+            const entrance = await Entrance.findOne({
+                where: { id: id },
+                include: EntranceOption,
+            });
+
+
+
+            return res.json(entrance);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+    async getEntenceUser(req, res, next) {
+        try {
+            const { id } = req.params;
+            const entrance = await Entrance.findAll({
+                where: { userId: id },
+            });
+            const transformedEntrance = entrance.map(entry => ({
+                value: entry.id,
+                label: entry.name,
+            }));
+
+
+            return res.json(transformedEntrance);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+    async createEntrance(req, res, next) {
+        try {
+            let {address, name, option, totalSeats, userId} = req.body
+            // Добавление информации о входе
+            const entrance = await Entrance.create({
+                address: address,
+                name: name,
+                totalSeats: totalSeats,
+                userId: userId
+            });
+
+            // Добавление информации о входных опциях
+            for (const i of option) {
+                await EntranceOption.create({
+                    name: i.name,
+                    totalSeats:i.totalSeats,
+                    entranceId: entrance.id,  // Связывание опции с входом
+                });
+            }
+
+            return res.json(entrance);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }

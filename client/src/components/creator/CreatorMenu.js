@@ -21,6 +21,7 @@ const items = [
     getItem('Залы', 'zal', <EnvironmentOutlined />, ),
     getItem('Покупатели', 'buyers', <TeamOutlined />, ),
     getItem('Контролеры', 'controler', <BarcodeOutlined />, ),
+    getItem('Обо мне', 'aboutMe', <UserOutlined />, ),
 
 ];
 const CreatorMenu = () => {

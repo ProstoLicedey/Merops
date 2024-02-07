@@ -114,10 +114,10 @@ class OrderController {
 
                     if (event.entrance) {
                         addressName = event.entrance.name;
-                        address = event.entrance.adress;
+                        address = event.entrance.address;
                     } else if (event.hall) {
                         addressName = event.hall.name;
-                        address = event.hall.adress;
+                        address = event.hall.address;
                     }
                 }
                 return {

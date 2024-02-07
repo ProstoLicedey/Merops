@@ -52,7 +52,7 @@ const OrderCard = ({thisOrder}) => {
                 <AddressLink
                 style={{marginTop: -10}}
                 name={thisOrder ? thisOrder.addressName : null}
-                adress={thisOrder ? thisOrder.address : null}
+                address={thisOrder ? thisOrder.address : null}
                 styleIcon={{width:'20',marginTop: 3, height: '20', marginRight: 3, color:'#999898', }}
                 styleTitle={{height: '1em', color:'#999898', }}
                 level={5}

@@ -4,6 +4,7 @@ import {HOME_ROUTE} from "../utils/consts";
 import {adminRoutes, creatorRoutes, publicRoutes, userRoutes} from "../routes";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import ErrorPage from "../pages/ErrorPage";
 
 const AppRouter = () => {
     const {user} = useContext(Context)
@@ -25,7 +26,7 @@ const AppRouter = () => {
             {publicRoutes.map(({path, Component}) => (
                 <Route key={path} path={path} element={<Component/>}/>
             ))}
-            <Route path="*" element={<Navigate replace to={HOME_ROUTE}/>}/>
+            <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
     }

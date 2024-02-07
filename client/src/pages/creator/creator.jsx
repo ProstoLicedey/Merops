@@ -8,6 +8,7 @@ import ControllerCreator from "./controllerCreator";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {ReCAPTCHA} from "react-google-recaptcha";
+import Profile from "../../components/user/profile";
 
 
 const PLANS ={
@@ -15,7 +16,7 @@ const PLANS ={
     zal: MeropTable,
     buyers: MeropTable,
     controler: ControllerCreator,
-    aboutMe: MeropTable,
+    aboutMe: Profile    ,
 }
 const Creator = () => {
     const  {creator} = useContext(Context)

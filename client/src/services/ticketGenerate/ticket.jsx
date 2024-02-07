@@ -70,7 +70,7 @@ const Ticket = ({order}) => {
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>
                         {" Адрес: "}
                         <Text style={{ color: 'black'}}>
-                            {ticket.entranceOptionPrice.entranceOption.entrance.name} ({ticket.entranceOptionPrice.entranceOption.entrance.adress})
+                            {ticket.entranceOptionPrice.entranceOption.entrance.name} ({ticket.entranceOptionPrice.entranceOption.entrance.address})
                         </Text>
                     </Text>
                     <Text style={{fontSize: 14, color:'gray', flex: 1}}>

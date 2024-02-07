@@ -12,11 +12,7 @@ import {observer} from "mobx-react-lite";
 const User = () => {
     const {user} = useContext(Context)
 
-    useEffect(() => {
-        if(user.user.id != undefined) {
-            getInfo(user.user.id).then(data => user.setUserProfile(data));
-        }
-    }, [user.user]);
+
     return (
         <Row className="mt-3" >
             <Col md={8}>

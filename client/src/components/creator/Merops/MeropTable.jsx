@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Input, Space, Spin, Table} from 'antd';
+import {Button, Flex, Input, Space, Spin, Table} from 'antd';
 import {fetchEvent, fetchOneEvent, fetchTypes} from "../../../http/eventAPI";
 import {getEventCreator} from "../../../http/creactorAPI";
 import {Context} from "../../../index";
@@ -8,6 +8,7 @@ import creator from "../../../pages/creator/creator";
 import {observer} from "mobx-react-lite";
 import {useNavigate} from "react-router-dom";
 import {CREATEEVENT_ROUTE, EVENT_ROUTE} from "../../../utils/consts";
+import Title from "antd/es/typography/Title";
 
 const MeropTable = () => {
     const navigate = useNavigate()
@@ -166,15 +167,18 @@ const MeropTable = () => {
         }),
     };
     return(
-        <Space direction="vertical" style={{ textAlign: 'left', width: '90%', backgroundColor:'white', margin:10}}>
-            <Button type="primary" style={{ backgroundColor: '#722ed1' }} onClick={() =>navigate(CREATEEVENT_ROUTE)}>
-                Добавить +
-            </Button>
-           <Table style={{cursor:'pointer'}} columns={columns} dataSource={creator.events} onRow = {(record) => ({
-            onClick: () => onRowClick(record)
-        })}/>
 
-        </Space>
+            <Space direction="vertical" style={{ textAlign: 'left', width: '90%', backgroundColor:'white', margin:10}}>
+                <Title level={2}>
+                    Мероприятия
+                </Title>
+                <Button type="primary" style={{ backgroundColor: '#722ed1' }} onClick={() =>navigate(CREATEEVENT_ROUTE)}>
+                    Добавить +
+                </Button>
+               <Table style={{cursor:'pointer'}} columns={columns} dataSource={creator.events} onRow = {(record) => ({
+                onClick: () => onRowClick(record)
+            })}/>
+            </Space>
     );
 };
 export default observer(MeropTable);

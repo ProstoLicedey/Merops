@@ -21,7 +21,6 @@ const DrawerBuy = ({open, onClose, entranceId}) => {
     }, [event.event]);
 
     const  addOrder = () =>{
-        console.log(user.user)
         const  formData = new FormData
         formData.append('userId', user.user.id)
         formData.append('tickets', JSON.stringify(hall.ticket))

@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 export  default  class TicketStore{
     constructor() {
-        this._ticket = {}
+
         this._controllerTicket = null
         makeAutoObservable(this)
     }

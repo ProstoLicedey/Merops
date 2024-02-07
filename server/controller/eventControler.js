@@ -160,11 +160,11 @@ class EventController {
 
                 // Добавление адреса из Entrance, если entranceId не равно null
                 if (event.entranceId !== null ) {
-                    formattedEvent.address = event.entrance.adress;
+                    formattedEvent.address = event.entrance.address;
                 }
                 // Или добавление адреса из Hall, если entranceId равно null
                 else if (event.hall !== null) {
-                    formattedEvent.address = event.hall.adress;
+                    formattedEvent.address = event.hall.address;
                 }
 
                 return formattedEvent;

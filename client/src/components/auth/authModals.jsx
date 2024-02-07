@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, Button, DatePicker, Form, Input, Modal, Typography} from 'antd';
+import {Alert, Button, DatePicker, Flex, Form, Input, Modal, Typography} from 'antd';
 import {Context} from "../../index";
 
 import onCreate from "../../services/userService/authService"
@@ -12,10 +12,9 @@ const CollectionCreateForm = ({open, onCancel}) => {
     const [title, setTitle] = useState('Авторизация');
     const [passUpdate, setPassUpdate] = useState(false);
     useEffect(() => {
-        if(passUpdate === true) {
+        if (passUpdate === true) {
             setTitle('Восстановление пароля');
-        }
-        else {
+        } else {
             setTitle('Авторизация');
         }
     }, [passUpdate]);
@@ -34,18 +33,20 @@ const CollectionCreateForm = ({open, onCancel}) => {
             }}
 
         >
-
-
-            {!passUpdate ?
-            <RegLogForm title={setTitle}
-                        onCancel={() =>onCancel()}
-                        setPassUpdate={() =>setPassUpdate(true)}
-            />
-             :
-                  <UpdatePasswordModal    setPassUpdate={setPassUpdate}/>
-            }
+            <Flex justify={"center"}>
+                {!passUpdate ?
+                    <RegLogForm title={setTitle}
+                                onCancel={() => onCancel()}
+                                setPassUpdate={() => setPassUpdate(true)}
+                    />
+                    :
+                    <UpdatePasswordModal setPassUpdate={setPassUpdate}/>
+                }
+            </Flex>
         </Modal>
-    );
+
+    )
+        ;
 };
 
 export default CollectionCreateForm

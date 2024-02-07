@@ -6,10 +6,10 @@ import MapIcon from "../../assets/icon/MapIcon";
 
 const { Text, Link } = Typography;
 
-const AddressLink = ({adress, name, styleIcon, styleTitle, level, underline}) => {
+const AddressLink = ({address, name, styleIcon, styleTitle, level, underline}) => {
     const handleOpenMaps = () => {
-        const mapsUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(adress)}`;
-        window.open(mapsUrl, '_blank'); 
+        const mapsUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(address)}`;
+        window.open(mapsUrl, '_blank');
     };
 
     return (

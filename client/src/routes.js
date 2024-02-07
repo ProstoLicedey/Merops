@@ -11,7 +11,6 @@ import {
 import Login from "./pages/login";
 import Home from "./pages/event/home";
 import Event from "./pages/event/event";
-import registration from "./pages/registration";
 import Creator from "./pages/creator/creator";
 import User from "./pages/user/user";
 import Admin from "./pages/admin/admin";
@@ -75,10 +74,6 @@ export  const publicRoutes = [
     {
         path: LOGIN_ROUTE,
         Component: Login
-    },
-    {
-        path: REGISTRATION_ROUTE,
-        Component: registration
     },
     {
         path: EVENT_ROUTE + '/:id',

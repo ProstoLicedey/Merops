@@ -58,7 +58,7 @@ const Type = sequelize.define('type', {
 
 const Entrance = sequelize.define('entrance', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    adress: {type: DataTypes.STRING},
+    address: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING},
     totalSeats: {type: DataTypes.INTEGER},
 
@@ -75,7 +75,7 @@ const EntranceOptionPrice = sequelize.define('entranceOptionPrice', {
 })
 const Hall = sequelize.define('hall', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    adress: {type: DataTypes.STRING},
+    address: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING},
     numberRows: {type: DataTypes.INTEGER},
     numberSeatsInRow: {type: DataTypes.INTEGER},
@@ -127,9 +127,13 @@ HallOptionPrice.hasMany(Ticket)
 Ticket.belongsTo(HallOptionPrice)
 
 User.hasMany(Event)
-User.belongsTo(AgeRating)
+Event.belongsTo(User)
 
+User.hasMany(Entrance)
+Entrance.belongsTo(User)
 
+User.hasMany(Hall)
+Hall.belongsTo(User)
 //////////
 Event.hasMany(Ticket)
 Ticket.belongsTo(Event)
