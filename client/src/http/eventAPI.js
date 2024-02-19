@@ -8,6 +8,10 @@ export  const  fetchTypes = async () =>{
     const  {data} = await $host.get('/api/type')
     return data
 }
+export  const  fetchRating= async () =>{
+    const  {data} = await $host.get('/api/type/rating')
+    return data
+}
 
 export  const  createEvent = async (device) =>{
     // const  {data} = await $authHost.post('api/event', device)

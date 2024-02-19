@@ -17,7 +17,7 @@ import TextArea from "antd/es/input/TextArea";
 import {CheckOutlined, CloseOutlined, UploadOutlined} from "@ant-design/icons";
 import ruRU from "antd/es/locale/ru_RU";
 import {Context} from "../../index";
-import {fetchTypes} from "../../http/eventAPI";
+import {fetchRating, fetchTypes} from "../../http/eventAPI";
 import Link from "antd/es/typography/Link";
 import EventItem from "../../components/home/EventItem";
 import CreateZal from "../../components/creator/ModalZal/createZal";
@@ -49,12 +49,31 @@ const formItemLayout = {
     },
 };
 
+const props = {
+    name: 'file',
+    action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+    headers: {
+        authorization: 'authorization-text',
+    },
+    onChange(info) {
+        if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} файл загружен`);
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} ошибка`);
+        }
+    },
+};
 
 function Label(props: { children: ReactNode }) {
     return null;
 }
 
 const CreateEvent = () => {
+
+
     const {id} = useParams();
     const {event, creator, user} = useContext(Context)
     const [fileUploaded, setFileUploaded] = useState(false);
@@ -66,9 +85,14 @@ const CreateEvent = () => {
 
     const titleText = id == undefined ? "Создание мероприятия" : "Редактирование мероприятия";
 
+    useEffect(() => {
+
+    }, [creator.entrance]); // Срабатывает при изменении creator.entrance
+
 
     useEffect(() => {
         fetchTypes().then(data => event.setTypes(data))
+        fetchRating().then(data => event.setRatings(data))
         getEntranceUser(user.user.id).then(data => creator.setEntranceAll(data))
     }, [modal]);
 
@@ -87,16 +111,20 @@ const CreateEvent = () => {
             return
         }
         setSelectedValue(value);
-        getOneEntrance(value).then(data => creator.setEntrance(data))
-
-
+        getOneEntrance(value).then(data => {
+                creator.setEntrance(data)
+                if (creator.entrance.entranceOptions) {
+                    // Обновляем значения формы на основе обновленных entranceOptions
+                    form.setFieldsValue({
+                        entrances: creator.entrance?.entranceOptions.map((entrance) => ({
+                            id: entrance.id,
+                            switchState: switchStates[entrance.id] === undefined ? true : switchStates[entrance.id],
+                        })),
+                    });
+                }
+            }
+        )
     };
-
-    const onFinish = (values) => {
-        // Handle form submission if needed
-        console.log('Form values:', form.validateFields());
-    };
-
     const beforeUpload = async (file) => {
         const isImage = file.type.startsWith('image/');
         if (!isImage) {
@@ -113,6 +141,7 @@ const CreateEvent = () => {
     const filterOption = (input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
 
+
     return (
         <Row style={{
             margin: '2%',
@@ -120,6 +149,7 @@ const CreateEvent = () => {
             textAlign: 'center',
             alignItems: 'flex-start',
             justifyContent: 'center',
+            height: '100%'
         }}>
             <Col xs={24} sm={12}>
                 <Space direction="vertical" style={{width: '95%', margin: 5}}>
@@ -204,13 +234,8 @@ const CreateEvent = () => {
                             {/*    {!fileUploaded &&*/}
                             {/*        <Button style={{width: '100%'}} icon={<UploadOutlined/>}>Загрузить</Button>}*/}
                             {/*</Upload>*/}
-                            <Upload
-
-                                    maxCount={1}
-                                    listType="picture">
-                                <Button icon={<UploadOutlined/>}>
-                                    Выбрать изображение (максимум 1)
-                                </Button>
+                            <Upload {...props}>
+                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
                         </Form.Item>
 
@@ -231,7 +256,6 @@ const CreateEvent = () => {
                         <Form.Item
                             label="Возрастное ограничение"
                             name="AgeReating"
-
                             rules={[
                                 {
                                     required: true,
@@ -239,7 +263,7 @@ const CreateEvent = () => {
                                 },
                             ]}
                         >
-                            <Select options={event.types}/>
+                            <Select options={event.ratings}/>
                         </Form.Item>
 
                         <Form.Item
@@ -248,34 +272,34 @@ const CreateEvent = () => {
                                 span: 16,
                             }}
                         >
-                            <Button type="primary" htmlType="submit"
-                                    onClick={() => {
-                                        formEvent
-                                            .validateFields()
-                                            .then((values) => {
-                                                    console.error(values);
-                                                    createEntrance(values).then(response => {
-                                                        if (response.id) {
-                                                            form.resetFields();
-                                                        } else {
-                                                            console.error("Error server");
-                                                        }
-                                                    })
-                                                }
-                                            )
-                                            .catch((error) => {
-                                                console.error("Error during form validation:", error);
-                                            });
-                                    }
-                                    }>
-                                Далее
-                            </Button>
+                            {/*<Button type="primary" htmlType="submit"*/}
+                            {/*        onClick={() => {*/}
+                            {/*            formEvent*/}
+                            {/*                .validateFields()*/}
+                            {/*                .then((values) => {*/}
+                            {/*                        console.error(values);*/}
+                            {/*                        createEntrance(values).then(response => {*/}
+                            {/*                            if (response.id) {*/}
+                            {/*                                form.resetFields();*/}
+                            {/*                            } else {*/}
+                            {/*                                console.error("Error server");*/}
+                            {/*                            }*/}
+                            {/*                        })*/}
+                            {/*                    }*/}
+                            {/*                )*/}
+                            {/*                .catch((error) => {*/}
+                            {/*                    console.error("Error during form validation:", error);*/}
+                            {/*                });*/}
+                            {/*        }*/}
+                            {/*        }>*/}
+                            {/*    Далее*/}
+                            {/*</Button>*/}
                         </Form.Item>
                     </Form>
                 </Space>
             </Col>
-            <Col xs={24} sm={12}>
-                <Space direction="vertical" style={{width: '95%', margin: 5}}>
+            <Col xs={24} sm={12} style={{flex: 1,}}>
+                <Space direction="vertical" style={{width: '95%', margin: 5, height: '100%', backgroundColor: 'red'}}>
                     <Title level={4}>
                         Схема продажи
                     </Title>
@@ -295,7 +319,7 @@ const CreateEvent = () => {
                     {creator.entrance?.entranceOptions && (
                         <Form
                             form={form}
-                            onFinish={onFinish}
+
                             initialValues={{
                                 entrances: creator.entrance.entranceOptions?.map((entrance) => ({
                                     id: entrance.id,
@@ -307,7 +331,7 @@ const CreateEvent = () => {
                                 <Form.List name="entrances">
                                     {(fields, {add, remove}) => (
                                         <>
-                                            {fields.map(({key, name, fieldKey, ...restField}) => (
+                                            {fields.map(({key, name, ...restField}) => (
                                                 <Card.Grid
                                                     hoverable={false}
                                                     key={key}
@@ -344,13 +368,9 @@ const CreateEvent = () => {
                                                         <Col span={7}>
                                                             <Text
                                                                 type="secondary">Мест: {creator.entrance.entranceOptions[name].totalSeats}</Text>
-
                                                         </Col>
                                                         <Col span={8}>
-                                                            <Form.Item
-                                                                name={[name, 'price']}
-                                                                fieldKey={[fieldKey, 'price']}
-                                                            >
+                                                            <Form.Item name={[name, 'price']}>
                                                                 <Input
                                                                     addonAfter="₽"
                                                                     placeholder="Цена"
@@ -366,19 +386,31 @@ const CreateEvent = () => {
                                     )}
                                 </Form.List>
                             </Card>
-                            <Button type="primary" htmlType="submit"
-                                    style={{width: 200, height: 40, fontSize: 18, backgroundColor: '#722ed1'}}
-                                    onClick={() => {
-                                        form
-                                            .validateFields()
-                                            .then((values) => {
-                                                    onFinish()
-                                                }
-                                            )
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                style={{
+                                    marginTop: 20,
+                                    width: 250,
+                                    height: 40,
+                                    fontSize: 18,
+                                    backgroundColor: '#722ed1',
+                                }}
+                                onClick={() => {
+                                    formEvent
+                                        .validateFields()
+                                        .then(
+                                            form
+                                                .validateFields()
+                                                .then()
+                                                .catch((error) => {
+                                                    console.error("Error during form validation:", error);
+                                                })
+                                        )
                                             .catch((error) => {
-                                                console.error("Error during form validation:", error);
-                                            });
-                                    }}
+                                            console.error("Error during form validation:", error);
+                                        })
+                                }}
                             >
                                 Создать
                             </Button>
@@ -386,6 +418,7 @@ const CreateEvent = () => {
 
                 </Space>
             </Col>
+
             <ModalZal open={modal}
                       onCancel={() => {
                           setModal(false);

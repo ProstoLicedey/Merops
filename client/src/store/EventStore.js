@@ -2,8 +2,10 @@ import {makeAutoObservable} from "mobx";
 export default class EventStore {
     constructor() {
         this._types = []
+        this._ratings= []
         this._events = []
         this._event = {}
+
 
         this._selectedType = {}
         this._serchTitle = {}
@@ -17,6 +19,9 @@ export default class EventStore {
 
     setTypes(types) {
         this._types = types
+    }
+    setRatings(ratings) {
+        this._ratings = ratings
     }
     setEvents(events) {
         this._events = events
@@ -52,6 +57,9 @@ export default class EventStore {
 
     get types() {
         return this._types
+    }
+    get ratings() {
+        return this._ratings
     }
     get events() {
         return this._events
