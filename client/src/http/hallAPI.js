@@ -10,3 +10,7 @@ export  const  fetchOneHall = async (id) =>{
     const  {data} = await $host.get('api/hall/' + id )
     return data
 }
+export  const  fetchUserHall = async (id) =>{
+    const  {data} = await $host.get('api/hall/user-' + id )
+    return data
+}

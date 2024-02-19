@@ -49,9 +49,6 @@ const CheckCardController = ({ style }) => {
                             <Title level={2}>
                                 Удачно
                             </Title>
-                            <Title level={5}>
-                                можете сканировать следующий билет
-                            </Title>
                         </Space>
                     )
                 }

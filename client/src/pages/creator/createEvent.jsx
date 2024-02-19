@@ -72,7 +72,6 @@ const CreateEvent = () => {
         getEntranceUser(user.user.id).then(data => creator.setEntranceAll(data))
     }, [modal]);
 
-
     const normFile = (e) => {
         if (Array.isArray(e)) {
             const fileList = e;
@@ -102,7 +101,7 @@ const CreateEvent = () => {
         const isImage = file.type.startsWith('image/');
         if (!isImage) {
             message.error('Можно загружать только изображения!');
-            return Promise.reject();
+            formEvent.Image(null)
         }
         if (Array.isArray(file)) {
 
@@ -195,15 +194,23 @@ const CreateEvent = () => {
                                 },
                             ]}
                         >
+                            {/*<Upload*/}
+
+                            {/*    listType="picture"*/}
+                            {/*    maxCount={1}*/}
+                            {/*    beforeUpload={beforeUpload}*/}
+                            {/*    onRemove={() => setFileUploaded(false)}*/}
+                            {/*>*/}
+                            {/*    {!fileUploaded &&*/}
+                            {/*        <Button style={{width: '100%'}} icon={<UploadOutlined/>}>Загрузить</Button>}*/}
+                            {/*</Upload>*/}
                             <Upload
 
-                                listType="picture"
-
-                                beforeUpload={beforeUpload}
-                                onRemove={() => setFileUploaded(false)}
-                            >
-                                {!fileUploaded &&
-                                    <Button style={{width: '100%'}} icon={<UploadOutlined/>}>Загрузить</Button>}
+                                    maxCount={1}
+                                    listType="picture">
+                                <Button icon={<UploadOutlined/>}>
+                                    Выбрать изображение (максимум 1)
+                                </Button>
                             </Upload>
                         </Form.Item>
 

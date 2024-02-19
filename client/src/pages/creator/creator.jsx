@@ -1,26 +1,47 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Layout, Space, Switch} from "antd";
 import Title from "antd/es/typography/Title";
 import CreatorMenu from "../../components/creator/CreatorMenu";
-import MeropTable from "../../components/creator/Merops/MeropTable";
+import MeropTable from "../../components/creator/Tabs/event";
 import Sider from "antd/es/layout/Sider";
 import ControllerCreator from "./controllerCreator";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {ReCAPTCHA} from "react-google-recaptcha";
 import Profile from "../../components/user/profile";
+import Halls from "../../components/creator/Tabs/halls";
+
 
 
 const PLANS ={
     events: MeropTable,
-    zal: MeropTable,
+    zal: Halls,
     buyers: MeropTable,
     controler: ControllerCreator,
     aboutMe: Profile    ,
 }
 const Creator = () => {
-    const  {creator} = useContext(Context)
-    const PlanView = PLANS[creator.plan]
+    const hashValue = window.location.hash.substring(1);
+    const initialSelectedPlan = PLANS[hashValue] ? hashValue : 'events';
+    const [selectedPlan, setSelectedPlan] = useState(initialSelectedPlan);
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hashValue = window.location.hash.substring(1);
+            setSelectedPlan(PLANS[hashValue] ? hashValue : 'events');
+        };
+
+        // Подписываемся на событие изменения hash при монтировании компонента
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Убираем подписку при размонтировании компонента
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        };
+    }, []); // Пустой массив зависимостей, чтобы хук useEffect выполнился только при монтировании
+
+    const PlanView = PLANS[selectedPlan];
+
     return (
 
         <Layout style={{ width: '90%', backgroundColor:'white' }}>

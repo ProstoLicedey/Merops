@@ -73,8 +73,12 @@ class ticketController {
                     ]
 
                 })
-                if ( ticket.event.userId !== Number(idUser)) {
-                    return res.json(403);
+                if (!ticket) {
+                    return res.status(403).json({ error: 'Ticket not found' });
+                }
+
+                if (ticket.event.userId !== Number(idUser)) {
+                    return res.status(403).json({ error: 'Unauthorized' });
                 }
 
                 const modifiedTicket = {

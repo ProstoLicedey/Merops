@@ -149,7 +149,6 @@ const CreateEntrance = ({Close}) => {
                                 .then((values) => {
                                     const userId = user.user.id;
                                     values.userId = userId;
-
                                         createEntrance(values).then(response => {
                                         if (response.id) {
                                             Close()

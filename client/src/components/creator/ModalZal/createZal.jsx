@@ -4,7 +4,7 @@ import {Segmented} from "antd";
 const CreateZal = () => {
     return (
         <div>
-123
+В разработке
         </div>
     );
 };

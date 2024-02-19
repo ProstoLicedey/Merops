@@ -17,21 +17,28 @@ const ControllerCreator = () => {
     const postTicket = () => {
         if (ticketNumber.length !== 7) {
             setStatus('error');
-            setMessage('Номер билета состоит из 7 чисел');
+            setMessage('Номер билета состоит из 7 цифр');
             return;
         }
 
         setStatus('');
         setMessage('');
 
-        getTicket(ticketNumber, user.user.id).then((response) => {
-            // Обертываем изменение observable в экшен
-            ticket.setControllerTicket(response);
-        }).finally(() => {
-            if (ticket.controllerTicket === 403) {
-                setMessage('Билет не найден, либо это билет не на ваше мероприятие');
-            }
-        });
+        getTicket(ticketNumber, user.user.id)
+            .then((response) => {
+                // Обертываем изменение observable в экшен
+                ticket.setControllerTicket(response);
+            })
+            .catch((error) => {
+                console.error('Error fetching ticket:', error);
+
+                // You can also set a specific error message based on the error type or status code
+                if (error.response && (error.response.status === 403)) {
+                    setMessage('Билет не найден, либо это билет не на ваше мероприятие');
+                } else {
+                    setMessage('Произошла ошибка при получении билета');
+                }
+            })
     };
 
     return (

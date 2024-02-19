@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, HallOptionPrice, } = require('../models/models')
+const {Event, HallOptionPrice, Entrance, Hall, } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -58,6 +58,37 @@ class HallController {
             });
 
             return res.json({event, hallOptionPrice});
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+    async getUserHall(req, res, next) {
+        try {
+            const { id } = req.params;
+
+            const hall = await Hall.findAll({
+                attributes: ['id', 'address', 'name'],
+                where: { userId: id },
+            });
+
+            const entrance = await Entrance.findAll({
+                attributes: ['id', 'address', 'name', 'createdAt'],
+                where: { userId: id },
+            });
+
+
+
+            const combinedData = hall.map(hall => ({
+                ...hall.dataValues,
+                type: 'Зрительный зал'
+            })).concat(entrance.map(entrance => ({
+                ...entrance.dataValues,
+                type: 'Входной билет'
+            })));
+
+            combinedData.sort((a, b) => b.createdAt - a.createdAt);
+
+            return res.json(combinedData);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }

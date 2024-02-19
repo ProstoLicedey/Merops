@@ -6,6 +6,7 @@ export  default  class CreatorStore{
         this._entranceAll = []
         this._entrance = {}
         this._plan = "events"
+        this._halls  = []
         makeAutoObservable(this)
     }
 
@@ -21,6 +22,9 @@ export  default  class CreatorStore{
     setEntrance(entrance) {
         this._entrance = entrance
     }
+    setHalls(halls) {
+        this._halls = halls
+    }
 
     get events() {
         return this._events
@@ -33,6 +37,9 @@ export  default  class CreatorStore{
     }
     get entrance() {
         return this._entrance
+    }
+    get halls() {
+        return this._halls
     }
 
 

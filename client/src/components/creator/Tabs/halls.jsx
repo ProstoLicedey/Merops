@@ -1,17 +1,21 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
-import {Button, Flex, Input, Space, Spin, Table} from 'antd';
-import {fetchEvent, fetchOneEvent, fetchTypes} from "../../../http/eventAPI";
-import {getEventCreator} from "../../../http/creactorAPI";
-import {Context} from "../../../index";
-import creator from "../../../pages/creator/creator";
-import {observer} from "mobx-react-lite";
-import {useNavigate} from "react-router-dom";
-import {CREATEEVENT_ROUTE, EVENT_ROUTE} from "../../../utils/consts";
+import {Button, Input, Space, Spin, Table} from "antd";
 import Title from "antd/es/typography/Title";
+import {CREATEEVENT_ROUTE} from "../../../utils/consts";
+import ModalZal from "../ModalZal/ModalZal";
+import {getEventCreator} from "../../../http/creactorAPI";
+import {SearchOutlined} from "@ant-design/icons";
+import creator from "../../../pages/creator/creator";
+import {Context} from "../../../index";
+import {useNavigate} from "react-router-dom";
+import {fetchUserHall} from "../../../http/hallAPI";
+import {observer} from "mobx-react-lite";
 
-const MeropTable = () => {
+const Halls = () => {
     const navigate = useNavigate()
+
+
+    const [modal, setModal] = useState(false);
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -21,22 +25,18 @@ const MeropTable = () => {
 
     useEffect(() => {
         if(!!user.user) {
-            console.log(user.user.id)
-            getEventCreator(user.user.id).then(data => creator.setEvents(data)).finally(()=> setLoading(false));
-            console.log(creator.events)
+            fetchUserHall(user.user.id).then(data => creator.setHalls(data)).finally(()=> setLoading(false));
         }
 
-    }, [user.user]);
+    }, [user.user, modal]);
 
-
-        if (loading){
-            return (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                    <Spin size="large" />
-                </div>
-            )
-        }
-
+    if (loading){
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <Spin size="large" />
+            </div>
+        )
+    }
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -133,8 +133,8 @@ const MeropTable = () => {
         },
         {
             title: 'Название',
-            dataIndex: 'title',
-            key: 'title',
+            dataIndex: 'name',
+            key: 'name',
             width: '30%',
             sorter: (a, b) => a.address.length - b.address.length,
             ...getColumnSearchProps('name'),
@@ -149,9 +149,9 @@ const MeropTable = () => {
             sortDirections: ['descend', 'ascend'],
         },
         {
-            title: 'Дата',
-            dataIndex: 'dateTime',
-            key: 'dateTime',
+            title: 'Тип',
+            dataIndex: 'type',
+            key: 'type',
             width: '20%',
             ...getColumnSearchProps('date'),
             sorter: (a, b) => a.address.length - b.address.length,
@@ -166,19 +166,28 @@ const MeropTable = () => {
             onClick: () => onRowClick(record),
         }),
     };
-    return(
 
+    return (
             <Space direction="vertical" style={{ textAlign: 'left', width: '90%', backgroundColor:'white', margin:10}}>
                 <Title level={2}>
-                    Мероприятия
+                    Залы
                 </Title>
-                <Button type="primary" style={{ backgroundColor: '#722ed1' }} onClick={() =>navigate(CREATEEVENT_ROUTE)}>
+                <Button type="primary" style={{ backgroundColor: '#722ed1' }} onClick={() =>setModal(true)}>
                     Добавить +
                 </Button>
-               <Table style={{cursor:'pointer'}} columns={columns} dataSource={creator.events} onRow = {(record) => ({
-                onClick: () => onRowClick(record)
-            })}/>
+
+                <Table style={{cursor:'pointer'}} columns={columns} dataSource={creator.halls}
+                    //    onRow = {(record) => ({
+                    // onClick: () => onRowClick(record)})}
+                />
+
+                <ModalZal open={modal}
+                          onCancel={() => {
+                              setModal(false);
+                          }}/>
             </Space>
+
     );
 };
-export default observer(MeropTable);
+
+export default observer(Halls);
