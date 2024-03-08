@@ -7,7 +7,7 @@ import UpdatePasswordModal from "./updatePassword/updatePasswordModal";
 import RegLogForm from "./regLogForm";
 
 const {Text, Link} = Typography
-const CollectionCreateForm = ({open, onCancel}) => {
+const CollectionCreateForm = ({open, onCancel, idCreator}) => {
 
     const [title, setTitle] = useState('Авторизация');
     const [passUpdate, setPassUpdate] = useState(false);
@@ -38,6 +38,7 @@ const CollectionCreateForm = ({open, onCancel}) => {
                     <RegLogForm title={setTitle}
                                 onCancel={() => onCancel()}
                                 setPassUpdate={() => setPassUpdate(true)}
+                                idCreator={idCreator}
                     />
                     :
                     <UpdatePasswordModal setPassUpdate={setPassUpdate}/>

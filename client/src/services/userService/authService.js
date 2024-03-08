@@ -1,6 +1,7 @@
 import { login, registration } from "../../http/userAPI";
 
-const onCreate = async (values, user, isRegistration, role) => {
+const onCreate = async (values, user, isRegistration, role, creatorId) => {
+    console.log(creatorId)
     try {
         let data;
         if (!isRegistration) {
@@ -12,7 +13,8 @@ const onCreate = async (values, user, isRegistration, role) => {
                 values.name,
                 values.surname,
                 values.birthday,
-                role
+                role,
+                creatorId
             );
         }
         if (data) {

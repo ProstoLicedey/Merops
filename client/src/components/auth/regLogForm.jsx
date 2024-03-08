@@ -4,22 +4,22 @@ import onCreate from "../../services/userService/authService";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {ReCAPTCHA} from "react-google-recaptcha";
+
 const {Text, Link} = Typography
 
-const RegLogForm = ({title, onCancel, setPassUpdate}) => {
+const RegLogForm = ({title, onCancel, setPassUpdate, idCreator}) => {
 
     const [form] = Form.useForm();
-    const [isRegistration, setIsRegistration] = useState(false);
+    const [isRegistration, setIsRegistration] = useState(!!idCreator);
     const [message, setMessage] = useState(false);
     const [buttonActiv, setButtonActiv] = useState(false);
     const {user} = useContext(Context)
     const [openPas, setOpenPas] = useState(false);
-    if(isRegistration){
-        title("Регистрация")
-    }
-    else{
-        title("Авторизация")
-    }
+
+    title(isRegistration ? (!!idCreator ? "Добовление контроллера" : "Регистрация") : "Авторизация");
+    const buttonText = !isRegistration ? 'Войти' : (!!idCreator ? 'Добавить контроллера' : 'Зарегистрироваться');
+    const buttonLabel = !isRegistration? 'Зарегистрироваться' : (!!idCreator ? '': 'Войти');
+
     const recap = () => {
         setButtonActiv(true)
     }
@@ -33,7 +33,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
             }}
         >
             {message && (
-                <Alert type="error" message={message} showIcon />
+                <Alert type="error" message={message} showIcon/>
             )}
             <Form.Item
                 label="Почта"
@@ -46,7 +46,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                     },
                 ]}
             >
-                <Input />
+                <Input/>
             </Form.Item>
 
             <Form.Item
@@ -132,20 +132,21 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                 <DatePicker sty placeholder=""/>
             </Form.Item>
 
-                <ReCAPTCHA
-                    sitekey="6Ld9w1wpAAAAAIzgIfAAoZ-azpFGzxS6PenaVnzz"
-                    onChange={recap}
-                />
+            <ReCAPTCHA
+                sitekey="6Ld9w1wpAAAAAIzgIfAAoZ-azpFGzxS6PenaVnzz"
+                onChange={recap}
+            />
 
             <Form.Item style={{textAlign: 'center'}}>
-                <Button type="primary" htmlType="submit" style={{width: 200, height: 40, fontSize: 18,  backgroundColor:'#722ed1'}}
-                       // disabled = {!buttonActiv}
+                <Button type="primary" htmlType="submit"
+                        style={{width: 220, height: 40, fontSize: 18, backgroundColor: '#722ed1'}}
+                    // disabled = {!buttonActiv}
                         onClick={() => {
                             setMessage('')
                             form
                                 .validateFields()
                                 .then((values) => {
-                                    onCreate(values, user, isRegistration, 'USER' )
+                                    onCreate(values, user, isRegistration, (!!idCreator ? 'CONTROLLER' : 'USER'), idCreator)
                                         .then(result => {
                                             if (result === true) {
                                                 console.log(result)
@@ -154,7 +155,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                                                 onCancel();
                                                 setMessage('')
                                             } else {
-                                                isRegistration?
+                                                isRegistration ?
                                                     setMessage("Данный email уже зарегестрирован")
                                                     :
                                                     setMessage("Логин и пароль не совпадают")
@@ -167,28 +168,21 @@ const RegLogForm = ({title, onCancel, setPassUpdate}) => {
                                 });
                         }}
                 >
-                    {isRegistration ?
-                        'Зарегестрироваться'
-                        :
-                        'Войти'
-                    }
+                    {buttonText}
                 </Button>
             </Form.Item>
 
 
             <div style={{textAlign: 'center'}}>
                 <Link onClick={() => {
-                    isRegistration ? setIsRegistration(false)  : setIsRegistration(true);  setMessage('')
+                    isRegistration ? setIsRegistration(false) : setIsRegistration(true);
+                    setMessage('')
                 }} underline>
-                    {isRegistration ?
-                        'Войти'
-                        :
-                        'Зарегестрироваться'
-                    }
+                    {buttonLabel}
                 </Link>
             </div>
         </Form>
     );
 };
 
-export default  observer(RegLogForm);
+export default observer(RegLogForm);
