@@ -10,13 +10,14 @@ import {observer} from "mobx-react-lite";
 import {ReCAPTCHA} from "react-google-recaptcha";
 import Profile from "../../components/user/profile";
 import Halls from "../../components/creator/Tabs/halls";
+import Buyers from "../../components/creator/Tabs/buyers";
 
 
 
 const PLANS ={
     events: MeropTable,
     zal: Halls,
-    buyers: MeropTable,
+    buyers: Buyers,
     controler: ControllerCreator,
     aboutMe: Profile    ,
 }

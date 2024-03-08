@@ -82,7 +82,7 @@ const CreateEvent = () => {
     const [switchStates, setSwitchStates] = useState({});
     const [form] = Form.useForm();
     const [formEvent] = Form.useForm();
-
+    const [file, setFile] = useState(null);
     const titleText = id == undefined ? "Создание мероприятия" : "Редактирование мероприятия";
 
     useEffect(() => {
@@ -213,27 +213,35 @@ const CreateEvent = () => {
                             </Form.Item>
                         </ConfigProvider>
                         <Form.Item
-                            valuePropName="fileList"
-                            getValueFromEvent={normFile}
                             label="Изображение"
-                            name="Image"
+                            name="File"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Загрузите картинку',
+                                    message: 'Загрузите фото',
                                 },
                             ]}
                         >
-                            {/*<Upload*/}
+                            {/*<input*/}
+                            {/*    style={{*/}
+                            {/*        backgroundColor: "white",*/}
+                            {/*        width:'200',*/}
+                            {/*        content: 'Загрзуите картинку',*/}
+                            {/*        display: 'inline-block',*/}
+                            {/*        background: 'white',*/}
+                            {/*        border: '1px solid #999',*/}
+                            {/*        borderRadius: '3px',*/}
+                            {/*        padding: '5px 8px',*/}
+                            {/*        outline: 'none',*/}
+                            {/*        whitespace: 'nowrap',*/}
+                            {/*        cursor: 'pointer',*/}
+                            {/*        textShadow: '1px 1px #fff',*/}
+                            {/*        fontWeight: 700,*/}
 
-                            {/*    listType="picture"*/}
-                            {/*    maxCount={1}*/}
-                            {/*    beforeUpload={beforeUpload}*/}
-                            {/*    onRemove={() => setFileUploaded(false)}*/}
-                            {/*>*/}
-                            {/*    {!fileUploaded &&*/}
-                            {/*        <Button style={{width: '100%'}} icon={<UploadOutlined/>}>Загрузить</Button>}*/}
-                            {/*</Upload>*/}
+                            {/*    }}*/}
+                            {/*    type="file"*/}
+                            {/*/>*/}
+
                             <Upload {...props}>
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
@@ -295,11 +303,14 @@ const CreateEvent = () => {
                             {/*    Далее*/}
                             {/*</Button>*/}
                         </Form.Item>
+                        <Typography>
+                            <pre>{JSON.stringify(formEvent.getFieldsValue(), null, 2)}</pre>
+                        </Typography>
                     </Form>
                 </Space>
             </Col>
             <Col xs={24} sm={12} style={{flex: 1,}}>
-                <Space direction="vertical" style={{width: '95%', margin: 5, height: '100%', backgroundColor: 'red'}}>
+                <Space direction="vertical" style={{width: '95%', margin: 5, height: '100%', }}>
                     <Title level={4}>
                         Схема продажи
                     </Title>

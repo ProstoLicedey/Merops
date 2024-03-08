@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import {HOME_ROUTE} from "../utils/consts";
-import {adminRoutes, creatorRoutes, publicRoutes, userRoutes} from "../routes";
+import {adminRoutes, controllerRoutes, creatorRoutes, publicRoutes, userRoutes} from "../routes";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import ErrorPage from "../pages/ErrorPage";
@@ -22,6 +22,9 @@ const AppRouter = () => {
             ))}
             {userRoutes.map(({path, Component}) => (
                 <Route key={path} path={path} element={role === 'USER' ? <Component /> : <Navigate to="/"/>}/>
+            ))}
+            {controllerRoutes.map(({path, Component}) => (
+                <Route key={path} path={path} element={role === 'CONTROLLER' ? <Component /> : <Navigate to="/"/>}/>
             ))}
             {publicRoutes.map(({path, Component}) => (
                 <Route key={path} path={path} element={<Component/>}/>

@@ -1,6 +1,6 @@
 
 const {Type, Order, Ticket,  UpdatePassword, Event, EntranceОptionPrice, Entrance, User, HallОptionPrice,
-    EntranceOptionPrice, EntranceOption
+    EntranceOptionPrice, EntranceOption, Controller
 } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
@@ -78,7 +78,14 @@ class ticketController {
                 }
 
                 if (ticket.event.userId !== Number(idUser)) {
-                    return res.status(403).json({ error: 'Unauthorized' });
+                    let controller = await Controller.findOne({
+                        where: {creatorId: ticket.event.userId, controllerId: Number(idUser)}
+                    })
+                    console.log('ticket#' + controller)
+                    if(!controller) {
+                        return res.status(403).json({ error: 'Unauthorized' });
+                    }
+
                 }
 
                 const modifiedTicket = {
@@ -122,8 +129,14 @@ class ticketController {
                     ]
 
                 })
+
                 if ( ticket.event.userId !== Number(idUser)) {
-                    return res.json(403);
+                    let controller = await Controller.findOne({
+                        where: {creatorId: ticket.event.userId, controllerId: Number(idUser)}
+                    })
+                    if(!controller) {
+                        return res.json(403);
+                    }
                 }
 
                 // Проверка и обновление значения ticket.status

@@ -1,70 +1,40 @@
 import React, { useContext, useState } from 'react';
-import { Alert, Button, Input, Space, Typography } from 'antd';
+import {Alert, Button, Flex, Input, Segmented, Space, Tabs, Typography} from 'antd';
 import { getTicket } from '../../http/ticketAPI';
 import { Context } from '../../index';
 import { observer } from 'mobx-react-lite';
-import Carouselcontroller from "../../components/Controller/Carouselcontroller";
-import CheckCardController from "../../components/Controller/CheckCardController";
+import Carouselcontroller from "../../components/controller/Carouselcontroller";
+import CheckCardController from "../../components/controller/CheckCardController";
+import ControllerComponent from "../../components/controller/ControllerComponent";
+import CreateEntrance from "../../components/creator/ModalZal/createEntrance";
+import CreateZal from "../../components/creator/ModalZal/createZal";
+import MyController from "../../components/creator/Controller/MyController";
 
 const { Title } = Typography;
 
 const ControllerCreator = () => {
-    const [ticketNumber, setTicketNumber] = useState('');
-    const [status, setStatus] = useState('');
-    const [message, setMessage] = useState('');
-    const { user, ticket } = useContext(Context);
-
-    const postTicket = () => {
-        if (ticketNumber.length !== 7) {
-            setStatus('error');
-            setMessage('Номер билета состоит из 7 цифр');
-            return;
-        }
-
-        setStatus('');
-        setMessage('');
-
-        getTicket(ticketNumber, user.user.id)
-            .then((response) => {
-                // Обертываем изменение observable в экшен
-                ticket.setControllerTicket(response);
-            })
-            .catch((error) => {
-                console.error('Error fetching ticket:', error);
-
-                // You can also set a specific error message based on the error type or status code
-                if (error.response && (error.response.status === 403)) {
-                    setMessage('Билет не найден, либо это билет не на ваше мероприятие');
-                } else {
-                    setMessage('Произошла ошибка при получении билета');
-                }
-            })
-    };
-
+    const [option, setOption] = useState('Проверка билетов');
     return (
-        <Space direction="vertical" size="small">
-            <Space>
-                <Title level={2}>Контроль билетов</Title>
-            </Space>
+            <Flex justify={"center"} vertical style={{margin:'1%',  width: '100%'}}>
+                <Tabs
+                    defaultActiveKey="1"
+                    onChange={(key) => {
+                        setOption(key);
+                    }}
+                    size={"large"}
+                    style={{
+                        width: '100%'
+                    }}
+                >
+                    <Tabs.TabPane tab="Проверка билетов" key="1">
+                        <ControllerComponent />
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Мои контроллеры" key="2">
+                        <MyController />
+                    </Tabs.TabPane>
+                </Tabs>
 
-            {!!message.length && <Alert message={message} type="error" />}
-
-            <Space>
-                <Input
-                    status={status}
-                    size="large"
-                    placeholder="Номер билета"
-                    maxLength={7}
-                    type="number"
-                    onChange={(e) => setTicketNumber(e.target.value)}
-                />
-                <Button type="primary" size="large" onClick={postTicket}>
-                    Ввод
-                </Button>
-            </Space>
-
-            {ticket.controllerTicket === null ? <Carouselcontroller /> : <CheckCardController style={{ marginLeft: 20 }} />}
-        </Space>
+            </Flex>
     );
 };
 

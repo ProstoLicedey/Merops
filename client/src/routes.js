@@ -1,5 +1,5 @@
 import {
-    ADMIN_ROUTE, CONTROLLER_CREATOR_ROUTE, CREATEEVENT_ROUTE,
+    ADMIN_ROUTE, CONTROLLER_CREATOR_ROUTE, CONTROLLER_ROUTE, CREATEEVENT_ROUTE,
     CREATOR_ROUTE, CREATORINFO_ROUTE, CREATORREGIST_ROUTE,
     EVENT_ROUTE, HALL_ROUTE,
     HOME_ROUTE,
@@ -20,6 +20,7 @@ import CreatorRegist from "./pages/creator/creatorRegist";
 import TicketCheck from "./pages/creator/ticketCheck";
 import CreateEvent from "./pages/creator/createEvent";
 import ControllerCreator from "./pages/creator/controllerCreator";
+import ControllerPage from "./pages/controller/ControllerPage";
 
 export const  userRoutes = [
 
@@ -27,11 +28,6 @@ export const  userRoutes = [
         path: USER_ROUTE,
         Component: User
     },
-    {
-        path: ORDER_ROUTE + '/:id',
-        Component: Order
-    },
-
 ]
 
 
@@ -65,16 +61,20 @@ export  const adminRoutes = [
     },
 
 ]
+export  const controllerRoutes = [
+    {
+        path: CONTROLLER_ROUTE,
+        Component: ControllerPage
+    },
+
+]
 
 export  const publicRoutes = [
     {
         path: HOME_ROUTE,
         Component:Home
     },
-    {
-        path: LOGIN_ROUTE,
-        Component: Login
-    },
+
     {
         path: EVENT_ROUTE + '/:id',
         Component: Event
@@ -86,6 +86,10 @@ export  const publicRoutes = [
     {
         path: CREATORREGIST_ROUTE,
         Component: CreatorRegist
+    },
+    {
+        path: ORDER_ROUTE + '/:id',
+        Component: Order
     },
 
 ]

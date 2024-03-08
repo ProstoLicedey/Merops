@@ -11,6 +11,26 @@ const User = sequelize.define('user', {
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 
 })
+const Controller = sequelize.define('controller', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    creatorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User, // Это должно быть имя таблицы модели User
+            key: 'id',
+        },
+    },
+    controllerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User, // Это должно быть имя таблицы модели User
+            key: 'id',
+        },
+    },
+
+})
 const Token = sequelize.define('token', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     refreshToken: {type: DataTypes.STRING, required: true},
@@ -103,6 +123,9 @@ const HallOptionPrice = sequelize.define('hallOptionPrice', {
 })
 
 
+
+
+
 User.hasMany(Order)
 Order.belongsTo(User)
 
@@ -180,6 +203,14 @@ EntranceOptionPrice.belongsTo(EntranceOption)
 
 EntranceOption.hasMany(EntranceOptionPrice)
 EntranceOptionPrice.belongsTo(EntranceOption)
+
+////////
+
+User.hasMany(Controller, { foreignKey: 'creatorId', as: 'createdControllers' });
+User.hasMany(Controller, { foreignKey: 'controllerId', as: 'controlledControllers' });
+Controller.belongsTo(User, { foreignKey: 'creatorId', as: 'user' });
+Controller.belongsTo(User, { foreignKey: 'controllerId', as: 'controllerUser' });
+
 module.exports = {
     User,
     Token,
@@ -197,5 +228,5 @@ module.exports = {
     HallPassage,
     HallOption,
     HallOptionPrice,
-
+    Controller
 }

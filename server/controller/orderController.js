@@ -141,6 +141,30 @@ class OrderController {
             next(ApiError.BadRequest(e));
         }
     }
+    async getByuers(req, res, next) {
+        try {
+            const { id } = req.params;
+
+            const event = await Event.findAll({
+                where: { userId: id },
+                include: [
+                    {
+                        model: Ticket,
+                        include: [
+                            {
+                                model: Event,
+                                include: [{ model: Entrance }],
+                            },
+                        ],
+                    },
+                ],
+            });
+
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
 
 }
 

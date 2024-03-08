@@ -19,7 +19,7 @@
     const items = [
         getItem('Мероприятия', 'events',<CalendarOutlined />, ),
         getItem('Залы', 'zal', <EnvironmentOutlined />, ),
-        getItem('Покупатели', 'buyers', <TeamOutlined />, ),
+        getItem('Покупки', 'buyers', <TeamOutlined />, ),
         getItem('Контролеры', 'controler', <BarcodeOutlined />, ),
         getItem('Обо мне', 'aboutMe', <UserOutlined />, ),
 

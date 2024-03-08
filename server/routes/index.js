@@ -9,6 +9,7 @@ const seatRouter = require('./seatRoutes')
 const ticketRouter = require('./ticketRoutes')
 const typeRouter = require('./typeRoutes')
 const userRouter = require('./userRoutes')
+const controllerRoutes = require('./controllerRoutes')
 
 const  authMiddleware = require('../middlewares/authMiddleware')
 
@@ -20,5 +21,6 @@ router.use('/order',  orderRouter)
 router.use('/ticket', ticketRouter)
 router.use('/type', typeRouter)
 router.use('/user', userRouter)
+router.use('/controller', controllerRoutes)
 
 module.exports = router

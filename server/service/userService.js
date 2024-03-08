@@ -1,7 +1,7 @@
 
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const {User, Link, UpdatePassword} = require('../models/models');
+const {User, Link, UpdatePassword, Controller} = require('../models/models');
 const  mailService = require('./mailService')
 const  tokenService = require('./tokenService')
 const  UserDto = require('../dto/userDto')
@@ -9,13 +9,19 @@ const LinkService = require('./linkService')
 const  ApiError = require('../exeptions/apiError')
 
 class UserService{
-    async registration(email, password, name, surname, birthday, role){
+    async registration(email, password, name, surname, birthday, role, creatorId){
         const candidate = await User.findOne({ where: { email: email } })
         if(candidate){
             throw ApiError.BadRequest( 'Пользователь с таким email уже зарегестрирован')
         }
         const hashPassword = await  bcrypt.hash(password,3 )
         const user = await  User.create({email: email.toLowerCase(), password: hashPassword, name:name, surname: surname, birthday: birthday, role:role})
+
+       if(!!creatorId){
+           const controller = await  Controller.create({creatorId: creatorId, controllerId: user.id, })
+           return("Пользователь добавлен")
+       }
+
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await  LinkService.saveLink(userDto.id, email  )

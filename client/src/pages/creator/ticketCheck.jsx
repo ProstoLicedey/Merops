@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchOneEvent } from '../../http/eventAPI';
 import { getTicket } from '../../http/ticketAPI';
 import { Context } from '../../index';
-import CheckCardController from '../../components/Controller/CheckCardController';
+import CheckCardController from '../../components/controller/CheckCardController';
 import { Alert } from 'antd';
 
 const TicketCheck = () => {
