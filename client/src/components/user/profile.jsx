@@ -62,7 +62,7 @@ const Profile = () => {
         setIsFormChanged(true);
     };
     return (
-        <div style={{ margin:'3em', minWidth: 300 }}>
+        <div >
             <Title  level={2}>Контактные данные</Title>
             <Card style={{marginTop:"3"}}>
 

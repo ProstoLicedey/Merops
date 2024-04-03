@@ -11,24 +11,25 @@ import {ReCAPTCHA} from "react-google-recaptcha";
 import Profile from "../../components/user/profile";
 import Halls from "../../components/creator/Tabs/halls";
 import Buyers from "../../components/creator/Tabs/buyers";
+import {logout} from "../../http/userAPI";
 
 
-
-const PLANS ={
+const PLANS = {
     events: MeropTable,
     zal: Halls,
     buyers: Buyers,
     controler: ControllerCreator,
-    aboutMe: Profile    ,
+    aboutMe: Profile,
 }
 const Creator = () => {
     const hashValue = window.location.hash.substring(1);
     const initialSelectedPlan = PLANS[hashValue] ? hashValue : 'events';
     const [selectedPlan, setSelectedPlan] = useState(initialSelectedPlan);
-
+    const {user} = useContext(Context)
     useEffect(() => {
         const handleHashChange = () => {
             const hashValue = window.location.hash.substring(1);
+
             setSelectedPlan(PLANS[hashValue] ? hashValue : 'events');
         };
 
@@ -41,16 +42,18 @@ const Creator = () => {
         };
     }, []); // Пустой массив зависимостей, чтобы хук useEffect выполнился только при монтировании
 
+
     const PlanView = PLANS[selectedPlan];
+
 
     return (
 
-        <Layout style={{ width: '90%', backgroundColor:'white' }}>
-            <Sider width="20%" style={{backgroundColor:'white'}}>
-                <CreatorMenu />
+        <Layout style={{width: '90%', backgroundColor: 'white'}}>
+            <Sider width="20%" style={{backgroundColor: 'white'}}>
+                <CreatorMenu/>
             </Sider>
 
-            <PlanView style={{  backgroundColor:'white' }}/>
+            <PlanView style={{backgroundColor: 'white'}}/>
         </Layout>
 
     );

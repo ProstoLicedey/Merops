@@ -1,12 +1,12 @@
 import { login, registration } from "../../http/userAPI";
 
 const onCreate = async (values, user, isRegistration, role, creatorId) => {
-    console.log(creatorId)
     try {
         let data;
         if (!isRegistration) {
             data = await login(values.email, values.password);
-        } else {
+        }
+        else {
             data = await registration(
                 values.email,
                 values.password,
@@ -17,10 +17,13 @@ const onCreate = async (values, user, isRegistration, role, creatorId) => {
                 creatorId
             );
         }
-        if (data) {
+        if (data === true) {
+            return true;
+        }
+        else {
             user.setUser(data);
             user.setIsAuth(true);
-            return true;
+            localStorage.setItem('token', data.accessToken)
         }
         return true;
     } catch (e) {
