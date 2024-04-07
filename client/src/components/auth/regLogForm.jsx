@@ -133,10 +133,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate, idCreator}) => {
                 <DatePicker sty placeholder=""/>
             </Form.Item>
 
-            <ReCAPTCHA
-                sitekey="6Ld9w1wpAAAAAIzgIfAAoZ-azpFGzxS6PenaVnzz"
-                onChange={recap}
-            />
+
             <SmartCaptcha sitekey="ysc1_o9rUAGXMfDVEYtHLupH0N7aBhp3Pn2g6FwptRbpM2555a297" onSuccess={setToken} />
             <Form.Item style={{textAlign: 'center'}}>
                 <Button type="primary" htmlType="submit"
