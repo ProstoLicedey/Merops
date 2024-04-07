@@ -4,11 +4,12 @@ import onCreate from "../../services/userService/authService";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {ReCAPTCHA} from "react-google-recaptcha";
+import {SmartCaptcha} from "@yandex/smart-captcha";
 
 const {Text, Link} = Typography
 
 const RegLogForm = ({title, onCancel, setPassUpdate, idCreator}) => {
-
+    const [token, setToken] = useState('');
     const [form] = Form.useForm();
     const [isRegistration, setIsRegistration] = useState(!!idCreator);
     const [message, setMessage] = useState(false);
@@ -136,7 +137,7 @@ const RegLogForm = ({title, onCancel, setPassUpdate, idCreator}) => {
                 sitekey="6Ld9w1wpAAAAAIzgIfAAoZ-azpFGzxS6PenaVnzz"
                 onChange={recap}
             />
-
+            <SmartCaptcha sitekey="ysc1_o9rUAGXMfDVEYtHLupH0N7aBhp3Pn2g6FwptRbpM2555a297" onSuccess={setToken} />
             <Form.Item style={{textAlign: 'center'}}>
                 <Button type="primary" htmlType="submit"
                         style={{width: 220, height: 40, fontSize: 18, backgroundColor: '#722ed1'}}

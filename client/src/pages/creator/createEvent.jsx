@@ -17,7 +17,7 @@ import TextArea from "antd/es/input/TextArea";
 import {CheckOutlined, CloseOutlined, UploadOutlined} from "@ant-design/icons";
 import ruRU from "antd/es/locale/ru_RU";
 import {Context} from "../../index";
-import {fetchRating, fetchTypes} from "../../http/eventAPI";
+import {createEvent, fetchRating, fetchTypes} from "../../http/eventAPI";
 import Link from "antd/es/typography/Link";
 import EventItem from "../../components/home/EventItem";
 import CreateZal from "../../components/creator/ModalZal/createZal";
@@ -82,8 +82,8 @@ const CreateEvent = () => {
     const [switchStates, setSwitchStates] = useState({});
     const [form] = Form.useForm();
     const [formEvent] = Form.useForm();
-    const [file, setFile] = useState(null);
     const titleText = id == undefined ? "Создание мероприятия" : "Редактирование мероприятия";
+    const [fileList, setFileList] = React.useState([]);
 
     useEffect(() => {
 
@@ -95,6 +95,11 @@ const CreateEvent = () => {
         fetchRating().then(data => event.setRatings(data))
         getEntranceUser(user.user.id).then(data => creator.setEntranceAll(data))
     }, [modal]);
+
+    const handleUpload = ({file}) => {
+        setFileList([file]);
+        return false;
+    };
 
     const normFile = (e) => {
         if (Array.isArray(e)) {
@@ -166,7 +171,7 @@ const CreateEvent = () => {
                     >
                         <Form.Item
                             label="Название"
-                            name="Name"
+                            name="title"
                             rules={[
                                 {
                                     required: true,
@@ -179,7 +184,7 @@ const CreateEvent = () => {
 
                         <Form.Item
                             label="Описание"
-                            name="Discription"
+                            name="description"
                             rules={[
                                 {
                                     required: true,
@@ -197,7 +202,7 @@ const CreateEvent = () => {
                         <ConfigProvider locale={ruRU}>
                             <Form.Item
                                 label="Дата и время"
-                                name="DateTime"
+                                name="dateTime"
                                 rules={[
                                     {
                                         type: 'object',
@@ -214,7 +219,6 @@ const CreateEvent = () => {
                         </ConfigProvider>
                         <Form.Item
                             label="Изображение"
-                            name="File"
                             rules={[
                                 {
                                     required: true,
@@ -222,34 +226,19 @@ const CreateEvent = () => {
                                 },
                             ]}
                         >
-                            {/*<input*/}
-                            {/*    style={{*/}
-                            {/*        backgroundColor: "white",*/}
-                            {/*        width:'200',*/}
-                            {/*        content: 'Загрзуите картинку',*/}
-                            {/*        display: 'inline-block',*/}
-                            {/*        background: 'white',*/}
-                            {/*        border: '1px solid #999',*/}
-                            {/*        borderRadius: '3px',*/}
-                            {/*        padding: '5px 8px',*/}
-                            {/*        outline: 'none',*/}
-                            {/*        whitespace: 'nowrap',*/}
-                            {/*        cursor: 'pointer',*/}
-                            {/*        textShadow: '1px 1px #fff',*/}
-                            {/*        fontWeight: 700,*/}
-
-                            {/*    }}*/}
-                            {/*    type="file"*/}
-                            {/*/>*/}
-
-                            <Upload {...props}>
-                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                            <Upload customRequest={handleUpload}
+                                    fileList={fileList}
+                                    maxCount={1}
+                                    listType="picture">
+                                <Button icon={<UploadOutlined/>}>
+                                    Выбрать изображение (максимум 1)
+                                </Button>
                             </Upload>
                         </Form.Item>
 
                         <Form.Item
                             label="Тип меропрития"
-                            name="Type"
+                            name="typeId"
 
                             rules={[
                                 {
@@ -263,7 +252,7 @@ const CreateEvent = () => {
 
                         <Form.Item
                             label="Возрастное ограничение"
-                            name="AgeReating"
+                            name="ageRatingId"
                             rules={[
                                 {
                                     required: true,
@@ -274,35 +263,7 @@ const CreateEvent = () => {
                             <Select options={event.ratings}/>
                         </Form.Item>
 
-                        <Form.Item
-                            wrapperCol={{
-                                offset: 6,
-                                span: 16,
-                            }}
-                        >
-                            {/*<Button type="primary" htmlType="submit"*/}
-                            {/*        onClick={() => {*/}
-                            {/*            formEvent*/}
-                            {/*                .validateFields()*/}
-                            {/*                .then((values) => {*/}
-                            {/*                        console.error(values);*/}
-                            {/*                        createEntrance(values).then(response => {*/}
-                            {/*                            if (response.id) {*/}
-                            {/*                                form.resetFields();*/}
-                            {/*                            } else {*/}
-                            {/*                                console.error("Error server");*/}
-                            {/*                            }*/}
-                            {/*                        })*/}
-                            {/*                    }*/}
-                            {/*                )*/}
-                            {/*                .catch((error) => {*/}
-                            {/*                    console.error("Error during form validation:", error);*/}
-                            {/*                });*/}
-                            {/*        }*/}
-                            {/*        }>*/}
-                            {/*    Далее*/}
-                            {/*</Button>*/}
-                        </Form.Item>
+
                         <Typography>
                             <pre>{JSON.stringify(formEvent.getFieldsValue(), null, 2)}</pre>
                         </Typography>
@@ -310,7 +271,7 @@ const CreateEvent = () => {
                 </Space>
             </Col>
             <Col xs={24} sm={12} style={{flex: 1,}}>
-                <Space direction="vertical" style={{width: '95%', margin: 5, height: '100%', }}>
+                <Space direction="vertical" style={{width: '95%', margin: 5, height: '100%',}}>
                     <Title level={4}>
                         Схема продажи
                     </Title>
@@ -412,13 +373,19 @@ const CreateEvent = () => {
                                         .validateFields()
                                         .then(
                                             form
+
                                                 .validateFields()
-                                                .then()
+                                                .then(
+                                                    () => {
+                                                        console.log(fileList)
+                                                        createEvent(formEvent.getFieldsValue(), user.user.id, fileList[0], form)
+                                                    }
+                                                )
                                                 .catch((error) => {
                                                     console.error("Error during form validation:", error);
                                                 })
                                         )
-                                            .catch((error) => {
+                                        .catch((error) => {
                                             console.error("Error during form validation:", error);
                                         })
                                 }}

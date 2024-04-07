@@ -11,12 +11,13 @@ class EventController {
     async create(req, res, next) {
         try {
 
-            let {title, description, dateTime, typeId, ageRatingId} = req.body
+            let {title, description, dateTime, typeId, ageRatingId, userId} = req.body
             const {img} = req.files
-            let fileName = uuid.v4() + ".jpeg"
-            img.mv(path.resolve(__dirname, '..', 'static', fileName))
 
-            const event = await Event.create({title, description, dateTime, typeId, ageRatingId, img: fileName})
+            let fileName = uuid.v4() + ".jpeg"
+            await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+
+            const event = await Event.create({title, description, dateTime, typeId, ageRatingId, userId, img: fileName})
 
 
             return res.json(event)
